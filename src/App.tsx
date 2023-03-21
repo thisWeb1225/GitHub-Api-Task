@@ -16,6 +16,7 @@ function App() {
   const [loginState, setLoginState] = useState<boolean>(false);
   const [token, setToken] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+  const [filteredIssues, setFilteredIssues] = useState([] as any);
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -39,6 +40,11 @@ function App() {
       if (loginState) {
         let data = await api.getRepoIssues(token, page);
         console.log(data);
+        setFilteredIssues((prevIssues: any[]) => {
+          if (prevIssues.length === 0) return [...data]
+          else return [prevIssues, ...data]
+
+        })
       }
     }
     getIssues()
@@ -55,7 +61,7 @@ function App() {
 
   return (
     <>
-      <header>
+      <header className='header'>
         {loginState ?
           <>
             <span>Login success!</span>
@@ -65,6 +71,9 @@ function App() {
           <button onClick={loginWithGitHub}>Login</button>
         }
       </header>
+      <main className='issueList'>
+        {filteredIssues.map((issue: any) => <div key={issue.number}>{issue.title} : {issue.body}</div>)}
+      </main>
     </>
   )
 }

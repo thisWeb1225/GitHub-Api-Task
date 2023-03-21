@@ -61,7 +61,7 @@ app.get('/getRepoIssues', async (req, res) => {
         Authorization: authorization,
         Accept: 'application/vnd.github+json',
       },
-      parmas: {
+      params: {
         per_page: PER_PAGE,
         page: page,
       },
