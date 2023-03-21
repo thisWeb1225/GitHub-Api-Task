@@ -23,7 +23,6 @@ function App() {
     const codeParam: string | null = urlParam.get('code');
 
     if (!codeParam) return;
-
     api.getAccessToken(codeParam)
       .then((data: AccessTokenDataType) => {
         const token = data?.access_token;
@@ -56,14 +55,16 @@ function App() {
 
   return (
     <>
-      {loginState ?
-        <>
-          <p>Login success!</p>
-          <button onClick={logoutWithGithub}>Logout</button>
-        </>
-        :
-        <button onClick={loginWithGitHub}>Login</button>
-      }
+      <header>
+        {loginState ?
+          <>
+            <span>Login success!</span>
+            <button onClick={logoutWithGithub}>Logout</button>
+          </>
+          :
+          <button onClick={loginWithGitHub}>Login</button>
+        }
+      </header>
     </>
   )
 }
