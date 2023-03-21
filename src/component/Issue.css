@@ -1,0 +1,10 @@
+.issueCard {
+  padding: 16px;
+  border: 1px solid #fff;
+  background: #23232b;
+  transition: .3s;
+}
+
+.issueCard:hover {
+  background: #2b2b35;;
+}

@@ -1,3 +1,5 @@
+import './Issue.css'
+
 interface IssueType {
   title: string,
   body: string,
