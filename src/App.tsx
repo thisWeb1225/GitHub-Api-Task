@@ -11,7 +11,7 @@ interface AccessTokenDataType {
 }
 
 function App() {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [loginState, setLoginState] = useState<boolean>(false);
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -22,21 +22,28 @@ function App() {
       .then((data: AccessTokenDataType) => {
         const token = data?.access_token;
         if (token) {
-          console.log(data.access_token);
+          localStorage.setItem('accessToken', token);
         }
-
+      }).then(() => {
+        setLoginState(true);
       })
-
-  })
+  }, [])
 
   const loginWithGitHub = () => {
     window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`);
   }
+  const logoutWithGithub = () => {
+    localStorage.removeItem('accessToken');
+    setLoginState(false)
+  } 
 
   return (
     <>
-      {isLogin ?
-        <p>Login success!</p>
+      {loginState ?
+        <>
+          <p>Login success!</p>
+          <button onClick={logoutWithGithub}>Logout</button>
+        </>
         :
         <button onClick={loginWithGitHub}>Login</button>
       }
