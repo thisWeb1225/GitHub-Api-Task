@@ -10,6 +10,7 @@ const BASE_URL = 'https://api.github.com';
 const OWNER = 'thisWeb1225';
 const REPO = 'GitHub_Task_Demo';
 const SCOPE = 'repo:issue';
+const PER_PAGE = 10;
 
 const PORT = 4000;
 
@@ -38,10 +39,45 @@ app.get('/getAccessToken', async (req, res) => {
       },
     });
 
-    const data = await response.data;
-    res.json(data);
+    if (response.state === 200) {
+      const data = await response.data;
+      res.send(data);
+    } else {
+      throw new Error('state error');
+    }
   } catch (err) {
-    res.send(err);
+    console.error(err);
+    throw new Error('error');
+  }
+});
+
+app.get('/getRepoIssues', async (req, res) => {
+  const authorization = `Bearer ${req.query.token}`;
+  const page = req.query.page;
+
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues`,
+      headers: {
+        Authorization: authorization,
+        Accept: 'application/vnd.github+json',
+      },
+      parmas: {
+        per_page: PER_PAGE,
+        page: page,
+      },
+    });
+
+    if (response.state === 200) {
+      const data = await response.data;
+      res.send(data);
+    } else {
+      throw new Error('state error');
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error('error');
   }
 });
 

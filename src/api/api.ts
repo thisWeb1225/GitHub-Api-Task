@@ -2,14 +2,7 @@ import axios from "axios";
 
 interface ApiType {
   getAccessToken: (codeParam: string | null) => Promise<any>;
-  getRepoIssues: (params: ParamsType) => Promise<any>
-}
-
-interface ParamsType {
-  token: string | null;
-  editedTitle?: string;
-  editedBody?: string;
-  id?: number;
+  getRepoIssues: (token: string | null, page: number) => Promise<any>
 }
 
 const api: ApiType = {
@@ -23,13 +16,10 @@ const api: ApiType = {
         }
       })
 
-      if (response.state === 200) {
-        const data = await response.data;
-        return data;
-      } else {
-        throw new Error('state error')
-      }
-     
+      
+      const data = await response.data;
+      return data;
+      
 
     } catch (err) {
       console.error(err);
@@ -37,13 +27,13 @@ const api: ApiType = {
     }
   },
 
-  getRepoIssues: async (params) => {
-    const {token} = params;
+  getRepoIssues: async (token, page = 1) => {
     const response = await axios({
       method: 'GET',
       url: 'http://localhost:4000/getRepoIssues',
       params: {
-        token
+        token,
+        page
       }
     })
 
