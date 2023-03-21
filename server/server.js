@@ -39,15 +39,13 @@ app.get('/getAccessToken', async (req, res) => {
       },
     });
 
-    if (response.state === 200) {
-      const data = await response.data;
-      res.send(data);
-    } else {
-      throw new Error('state error');
-    }
+    console.log(response.status);
+
+    const data = await response.data;
+    res.json(data);
   } catch (err) {
     console.error(err);
-    throw new Error('error');
+    res.send(err);
   }
 });
 
@@ -69,15 +67,11 @@ app.get('/getRepoIssues', async (req, res) => {
       },
     });
 
-    if (response.state === 200) {
-      const data = await response.data;
-      res.send(data);
-    } else {
-      throw new Error('state error');
-    }
+    const data = await response.data;
+    res.json(data);
   } catch (err) {
     console.error(err);
-    throw new Error('error');
+    res.send(err);
   }
 });
 
