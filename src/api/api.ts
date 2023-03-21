@@ -1,7 +1,7 @@
 import axios from "axios";
 
 interface ApiType {
-  getAccessToken: (codeParam: string) => any;
+  getAccessToken: (codeParam: string | null) => any;
 }
 
 const api: ApiType = {
@@ -14,10 +14,9 @@ const api: ApiType = {
           code: codeParam,
         }
       })
-    
       const data = await response.data;
       return data;
-      
+
     } catch (err) {
       return err;
     }
