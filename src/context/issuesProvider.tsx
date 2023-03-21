@@ -21,3 +21,5 @@ const IssuesProvider = ({ children }: ChildrenType) => {
   )
 }
 
+export default IssuesProvider
+

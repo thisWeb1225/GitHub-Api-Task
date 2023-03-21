@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import Issue from './component/Issue';
 import api from './api/api';
 import './App.css';
 
@@ -72,7 +73,16 @@ function App() {
         }
       </header>
       <main className='issueList'>
-        {filteredIssues.map((issue: any) => <div key={issue.number}>{issue.title} : {issue.body}</div>)}
+        {filteredIssues.map((issue: any) => {
+          return (
+            <Issue
+              title={issue.title}
+              body={issue.body}
+              state={issue.state}
+              number={issue.number} />
+          )
+        })
+        }
       </main>
     </>
   )
