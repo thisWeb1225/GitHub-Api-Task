@@ -43,12 +43,12 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       const token = localStorage.getItem('accessToken');
       if (!token) return
       const data = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
-
       setShouldRenderIssues(true);
+      setIsModalShow(false);
     }
 
     updateIssue();
-    setIsModalShow(false);
+
   }
 
   useEffect(() => {
@@ -65,28 +65,28 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
 
   return (
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
-      <h2>編輯 {title}</h2>
-      <label className="modal__title">
+      <h2 className="modal__title">編輯 {title}</h2>
+      <label className="modal__issue-title">
         標題：
         <input
-          className="modal__titleInput"
+          className="modal__issue-titleInput"
           type="text"
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
           disabled={!isEdited} />
       </label>
-      <label className='modal__body'>
+      <label className='modal__issue-body'>
         內容：
         <textarea
-          className='modal__bodyInput'
+          className='modal__issue-bodyInput'
           value={editedBody}
           onChange={(e) => setEditedBody(e.target.value)}
           disabled={!isEdited}
         />
       </label>
-      <div>
+      <div className='modal__issue-btn'>
+        <button onClick={closeIssueModal} className="btn-danger">取消</button>
         <button onClick={saveIssueModal}>儲存</button>
-        <button onClick={closeIssueModal}>取消</button>
       </div>
     </Modal>
   )

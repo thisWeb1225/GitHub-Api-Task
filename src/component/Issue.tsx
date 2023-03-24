@@ -26,9 +26,12 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
 
   return (
     <>
-      <div className='issueCard' onClick={openIssueModal}>
-        <h2 className='issueCard__title'>{title}</h2>
-        <p className='issueCard__body'>{body}</p>
+      <div className='issue' onClick={openIssueModal}>
+        <h2 className='issue__title'>
+          <span className={`issue__state ${state}`}></span>
+          {title}
+        </h2>
+        <p className='issue__body'>{body}</p>
       </div>
       <IssueModal
         issue={issue}

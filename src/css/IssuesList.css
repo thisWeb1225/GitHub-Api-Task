@@ -1,7 +1,13 @@
 .issuesList {
-  margin: 32px;
+  margin: 64px 10%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(320px, 640px));
   gap: 32px;
-  width: clamp(360px, 80%, 1280px);
+  justify-content: center;
+}
+
+@media (width < 640px) {
+  .issuesList {
+    grid-template-columns: 80%;
+  }
 }

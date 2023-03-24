@@ -8,7 +8,7 @@ import api from "../api/api"
 import './../css/IssuesList.css'
 
 const IssuesList = () => {
-  const [shouldRenderIssues, setShouldRenderIssues] = useState(true)
+  const [shouldRenderIssues, setShouldRenderIssues] = useState(true);
 
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
 

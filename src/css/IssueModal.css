@@ -3,23 +3,45 @@
 }
 
 .ReactModal__Content {
+  padding: 32px !important;
   inset: 10% !important;
   background-color: #23232b !important;
   overflow: hidden !important;
   display: grid;
+  align-items: center;
 }
 
-.modal__title, .modal__body {
+.modal__issue-title, .modal__issue-body {
   display: flex;
   align-items: center;
 }
 
-.modal__titleInput, .modal__bodyInput {
+.modal__issue-titleInput {
+  flex: 1;
+}
+
+.modal__issue-bodyInput {
+  flex: 1;
+  height: 300px;
+  resize: none;
+  overflow-y: scroll;
+}
+
+.modal__issue-titleInput, .modal__issue-bodyInput {
   padding: 8px;
 }
 
-:is(.modal__titleInput, .modal__bodyInput):disabled {
+:is(.modal__issue-titleInput, .modal__issue-bodyInput):disabled {
   background: transparent;
-  border: unset;
   outline: unset;
+}
+
+.modal__issue-btn {
+  display: flex;
+  gap: 16px;
+  justify-content: end;
+}
+
+.modal__issue-btn > button {
+  width: max(20%, 108px);
 }
