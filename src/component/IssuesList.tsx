@@ -1,7 +1,11 @@
+import { useEffect } from "react"
+
+import Issue from "./Issue"
+
 import useIssuesList from "../hook/useIssuesList"
 import api from "../api/api"
-import { useEffect } from "react"
-import Issue from "./Issue"
+
+import './../css/IssuesList.css'
 
 type PropsType = {
   token: string

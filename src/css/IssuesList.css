@@ -1,0 +1,7 @@
+.issuesList {
+  margin: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: clamp(360px, 80%, 1280px);
+}

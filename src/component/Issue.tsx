@@ -1,4 +1,4 @@
-import './Issue.css'
+import './../css/Issue.css'
 import { IssueType } from '../context/IssuesProvider';
 import { ReducerAction } from '../context/IssuesProvider';
 import { ReducerActionType } from '../context/IssuesProvider';
