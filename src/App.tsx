@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Issue from './component/Issue';
+import IssuesList from './component/IssuesList';
 import api from './api/api';
 import './App.css';
 
@@ -36,21 +37,6 @@ function App() {
       })
   }, [])
 
-  useEffect(() => {
-    const getIssues = async () => {
-      if (loginState) {
-        let data = await api.getRepoIssues(token, page);
-        console.log(data);
-        setFilteredIssues((prevIssues: any[]) => {
-          if (prevIssues.length === 0) return [...data]
-          else return [prevIssues, ...data]
-        })
-      }
-    }
-    getIssues()
-
-  }, [loginState])
-
   const loginWithGitHub = () => {
     window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`);
   }
@@ -58,9 +44,7 @@ function App() {
     localStorage.removeItem('accessToken');
     setLoginState(false)
   }
-  const showIssueDetail = (issue: any) => {
-    console.log(issue.title)
-  }
+
   return (
     <>
       <header className='header'>
@@ -73,24 +57,11 @@ function App() {
           <button onClick={loginWithGitHub}>Login</button>
         }
       </header>
-      <main className='issueList'>
-        {filteredIssues.map((issue: any) => {
-          return (
-            <div
-              onClick={() => showIssueDetail(issue)}
-              className="issueCard"
-              key={issue.id} >
-              <Issue
-                title={issue.title}
-                body={issue.body}
-                state={issue.state}
-                number={issue.number}
-              />
-            </div>
-          )
-        })
-        }
-      </main>
+      {
+        loginState
+          ? <IssuesList token={token}></IssuesList>
+          : <p>You need login</p>
+      }
     </>
   )
 }

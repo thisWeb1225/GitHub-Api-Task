@@ -6,7 +6,6 @@ export type IssueType = {
   title: string,
   body: string,
   state: string,
-  token?: string | null;
 }
 
 type IssuesListType = { issuesList: IssueType[] };
@@ -25,28 +24,18 @@ export type ReducerActionType = typeof REDUCER_ACTION_TYPE;
 
 export type ReducerAction = {
   type: string,
-  payload?: IssueType;
+  payload?: IssueType,
+  listPayload?: IssueType[];
 }
 
 const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType => {
   switch (action.type) {
     case REDUCER_ACTION_TYPE.GET: {
-      if (!action.payload) {
-        throw new Error('action.payload missing in GET action');
+      if (!action.listPayload) {
+        throw new Error('action.payload missing in GET action')
       }
 
-      const { token } = action.payload;
-
-      if (!token) throw new Error('need access token')
-
-      // 執行 api 操作
-      const getRepoIssues = async () => {
-        const newIssuesList = await api.getRepoIssues(token, 1)
-        return { ...state, newIssuesList }
-      }
-
-      getRepoIssues();
-
+      return { ...state, issuesList: action.listPayload }
     }
 
     case REDUCER_ACTION_TYPE.UPDATE: {
