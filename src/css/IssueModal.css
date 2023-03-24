@@ -3,8 +3,23 @@
 }
 
 .ReactModal__Content {
-  inset: 15% !important;
+  inset: 10% !important;
   background-color: #23232b !important;
   overflow: hidden !important;
   display: grid;
+}
+
+.modal__title, .modal__body {
+  display: flex;
+  align-items: center;
+}
+
+.modal__titleInput, .modal__bodyInput {
+  padding: 8px;
+}
+
+:is(.modal__titleInput, .modal__bodyInput):disabled {
+  background: transparent;
+  border: unset;
+  outline: unset;
 }

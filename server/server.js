@@ -75,6 +75,34 @@ app.get('/getRepoIssues', async (req, res) => {
   }
 });
 
+
+app.get('/updateIssue', async (req, res) => {
+  const authorization = `Bearer ${req.query.token}`;
+
+  const title = req.query.title;
+  const body = req.query.body;
+  const number = req.query.number;
+
+  try {
+    const response = await axios({
+      method: 'PATCH',
+      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues/${number}`,
+      headers: {
+        Authorization: authorization,
+      },
+      data: {
+        title,
+        body,
+      },
+    });
+
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`CORS server running on http://localhost:${PORT}`);
 });

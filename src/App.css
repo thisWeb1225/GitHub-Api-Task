@@ -19,13 +19,6 @@
   -webkit-backdrop-filter: blur(8px);
 }
 
-.issueList {
-  margin: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 32px;
-  width: clamp(360px, 50%, 640px);
-}
+
 
 
