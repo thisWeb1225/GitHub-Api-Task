@@ -15,12 +15,16 @@ type PropsType = {
   REDUCER_ACTIONS: ReducerActionType
   isModalShow: boolean;
   setIsModalShow: React.Dispatch<React.SetStateAction<boolean>>
+  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalShow }: PropsType) => {
-  const [isEdited, setIsEdited] = useState<boolean>(false)
+const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalShow, setShouldRenderIssues }: PropsType) => {
+  const [isEdited, setIsEdited] = useState<boolean>(true);
+  const [editedState, setEditedState] = useState('');
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
+  const [rerender, setRerender] = useState(false);
 
   const { number, title, body, state } = issue
 
@@ -29,22 +33,33 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
   }
 
   const saveIssueModal = () => {
-    // api
     if (editedBody.trim().length < 30) {
       alert('內容要超過 30 字');
       return;
     }
 
-    // const data = api.updateIssue
+    // api
+    const updateIssue = async () => {
+      const token = localStorage.getItem('accessToken');
+      if (!token) return
+      const data = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
+
+      setShouldRenderIssues(true);
+    }
+
+    updateIssue();
+    setIsModalShow(false);
   }
 
   useEffect(() => {
     if (isModalShow) {
       setEditedTitle(title);
       setEditedBody(body);
+      setEditedState(state)
     } else {
       setEditedTitle('');
       setEditedBody('');
+      setEditedState('');
     }
   }, [isModalShow])
 

@@ -59,7 +59,7 @@ function App() {
       </header>
       {
         loginState
-          ? <IssuesList token={token}></IssuesList>
+          ? <IssuesList />
           : <p>You need login</p>
       }
     </>

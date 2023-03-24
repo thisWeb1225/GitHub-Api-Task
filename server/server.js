@@ -39,12 +39,13 @@ app.get('/getAccessToken', async (req, res) => {
       },
     });
 
-    console.log(response.status);
+    if (response.status !== 200) {
+      throw new Error('status code is not 200');
+    }
 
     const data = await response.data;
     res.json(data);
   } catch (err) {
-    console.error(err);
     res.send(err);
   }
 });
@@ -67,10 +68,13 @@ app.get('/getRepoIssues', async (req, res) => {
       },
     });
 
+    if (response.status !== 200) {
+      throw new Error('status code is not 200');
+    }
+
     const data = await response.data;
     res.json(data);
   } catch (err) {
-    console.error(err);
     res.send(err);
   }
 });
@@ -96,9 +100,12 @@ app.get('/updateIssue', async (req, res) => {
       },
     });
 
-    return response.data;
+    if (response.status !== 200) {
+      throw new Error('status code is not 200');
+    }
+    const data = await response.data;
+    res.json(data);
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
 });

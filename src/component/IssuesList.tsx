@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import Issue from "./Issue"
 
@@ -7,26 +7,26 @@ import api from "../api/api"
 
 import './../css/IssuesList.css'
 
-type PropsType = {
-  token: string
-}
+const IssuesList = () => {
+  const [shouldRenderIssues, setShouldRenderIssues] = useState(true)
 
-const IssuesList = ({ token }: PropsType) => {
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
     if (!token) return;
     const getRepoIssues = async () => {
-      const data = await api.getRepoIssues(token, 1)
+      const data = await api.getRepoIssues(token, 1);
       dispatch({ type: REDUCER_ACTIONS.GET, listPayload: data });
     }
-    getRepoIssues()
 
-  }, [])
+    if (shouldRenderIssues) {
+      console.log(issuesList)
+      getRepoIssues()
+      setShouldRenderIssues(false)
+    }
 
-  useEffect(() => {
-    console.log(issuesList)
-  }, [issuesList])
+  }, [issuesList, shouldRenderIssues])
 
 
   return (
@@ -38,6 +38,7 @@ const IssuesList = ({ token }: PropsType) => {
             key={issue.number}
             dispatch={dispatch}
             REDUCER_ACTIONS={REDUCER_ACTIONS}
+            setShouldRenderIssues={setShouldRenderIssues}
           />
         )
       })}

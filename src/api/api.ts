@@ -1,10 +1,17 @@
 import axios from "axios";
 import { IssueType } from "../context/IssuesProvider";
 
+type EditedIssueType = {
+  number: number,
+  editedTitle: string,
+  editedBody: string,
+  editedState: string,
+}
+
 type ApiType = {
   getAccessToken: (codeParam: string | null) => any,
   getRepoIssues: (token: string | null, page: number) => any,
-  updateIssue: (token: string | null, issue: IssueType) => any,
+  updateIssue: (token: string | null, issue: EditedIssueType) => any,
 }
 
 const api: ApiType = {
@@ -41,17 +48,26 @@ const api: ApiType = {
   },
 
   updateIssue: async (token, issue) => {
-    const {number ,title: editedTitle , body: editedBody, state} = issue;
-    let response = await axios({
-      method: 'GET',
-      url: 'http://localhost:4000/updateIssue',
-      params: {
-        token: token,
-        title: editedTitle,
-        body: editedBody,
-        number: number,
-      }
-    })
+    const {number , editedTitle , editedBody, editedState} = issue;
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: 'http://localhost:4000/updateIssue',
+        params: {
+          token: token,
+          title: editedTitle,
+          body: editedBody,
+          state: editedState,
+          number: number,
+        }
+      })
+
+      const data = await response.data
+      return data
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
   }
 
 }

@@ -11,9 +11,10 @@ type PropsType = {
   issue: IssueType,
   dispatch: React.Dispatch<ReducerAction>,
   REDUCER_ACTIONS: ReducerActionType
+  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Issue = ({ issue, dispatch, REDUCER_ACTIONS }: PropsType) => {
+const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: PropsType) => {
 
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
 
@@ -35,6 +36,7 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS }: PropsType) => {
         REDUCER_ACTIONS={REDUCER_ACTIONS}
         isModalShow={isModalShow}
         setIsModalShow={setIsModalShow}
+        setShouldRenderIssues={setShouldRenderIssues}
       />
     </>
 

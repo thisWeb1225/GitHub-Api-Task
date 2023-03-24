@@ -45,7 +45,6 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
 
       const { number, title, body, state } = action.payload;
 
-      // 執行 api 操作
     }
 
     case REDUCER_ACTION_TYPE.CLOSE: {
@@ -54,8 +53,6 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
       }
 
       const { state } = action.payload;
-
-      // 執行 api 操作
     }
 
     case REDUCER_ACTION_TYPE.CREATE: {
@@ -63,8 +60,6 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
         throw new Error('action.payload missing in CREATE action');
       }
 
-
-      // 執行 api 操作
     }
 
     default:
