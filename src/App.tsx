@@ -44,7 +44,6 @@ function App() {
         setFilteredIssues((prevIssues: any[]) => {
           if (prevIssues.length === 0) return [...data]
           else return [prevIssues, ...data]
-
         })
       }
     }
@@ -59,7 +58,9 @@ function App() {
     localStorage.removeItem('accessToken');
     setLoginState(false)
   }
-
+  const showIssueDetail = (issue: any) => {
+    console.log(issue.title)
+  }
   return (
     <>
       <header className='header'>
@@ -75,11 +76,17 @@ function App() {
       <main className='issueList'>
         {filteredIssues.map((issue: any) => {
           return (
-            <Issue
-              title={issue.title}
-              body={issue.body}
-              state={issue.state}
-              number={issue.number} />
+            <div
+              onClick={() => showIssueDetail(issue)}
+              className="issueCard"
+              key={issue.id} >
+              <Issue
+                title={issue.title}
+                body={issue.body}
+                state={issue.state}
+                number={issue.number}
+              />
+            </div>
           )
         })
         }
