@@ -1,0 +1,11 @@
+.ReactModal__Overlay {
+  background-color: rgba(0,0,0,0.5) !important;
+}
+
+.ReactModal__Content {
+  inset: 15% !important;
+  background-color: #23232b !important;
+  overflow: hidden !important;
+  display: grid;
+  
+}

@@ -4,6 +4,8 @@ import { IssueType } from '../context/IssuesProvider';
 import { ReducerAction } from '../context/IssuesProvider';
 import { ReducerActionType } from '../context/IssuesProvider';
 
+import './../css/IssueModal.css'
+
 Modal.setAppElement('#root');
 
 type PropsType = {
