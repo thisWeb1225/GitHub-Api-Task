@@ -47,6 +47,9 @@
   flex: 1;
   border-radius: 0.25rem;
   padding: 16px;
+  border: 1px solid rgba(255,255,255,.4);
+  transition: .3s;
+  color: #fff;
 }
 
 :is(.modal__issue-titleInput, .modal__issue-bodyInput):disabled {
