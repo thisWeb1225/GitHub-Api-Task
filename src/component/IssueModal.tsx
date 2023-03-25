@@ -30,14 +30,13 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
   const [editedState, setEditedState] = useState('');
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
-  const [editedLabel, setEditedLabel] = useState('');
+  const [editedStatus, setEditedStatus] = useState('');
 
   const { number, title, body, state, labels } = issue;
   const status = labels[0]?.name;
-  console.log(status)
 
   const closeIssueModal = () => {
-    setIsModalShow(() => false);
+    setIsModalShow(false);
   }
 
   const saveIssueModal = () => {
@@ -53,10 +52,16 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     // api
     const updateIssue = async () => {
       if (window.confirm('確定要儲存嗎？')) {
+        // check
         const token = localStorage.getItem('accessToken');
         if (!token) return
-        const data = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
-        console.log(data)
+
+        // handle labels
+        const labels = [editedStatus]
+
+        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
+        const reaturnLabels = await api.updateIssueLabels(token, number, labels)
+
         setShouldRenderIssues(true);
         setIsModalShow(false);
       } else {
@@ -72,6 +77,7 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       setEditedTitle(title);
       setEditedBody(body);
       setEditedState(state);
+      setEditedStatus(status);
       setIsEdit(false);
     } else {
       setEditedTitle('');
@@ -86,7 +92,12 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} />
       <label className="modal__issue-label modal__content">
         status :
-        <select name="label" id="label" className='modal__input' disabled={!isEdit} onChange={(e) => setEditedLabel(e.target.value)}>
+        <select
+          value={editedStatus}
+          name="label"
+          className='modal__input'
+          disabled={!isEdit}
+          onChange={(e) => setEditedStatus(e.target.value)}>
           <option value="Open">Open</option>
           <option value="In Progress">In Progress</option>
           <option value="Done">Done</option>

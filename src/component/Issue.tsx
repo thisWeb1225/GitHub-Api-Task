@@ -19,6 +19,7 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
 
   const { title, body, state, number, labels } = issue;
+  const status: string = labels[0]?.name.toLowerCase();
 
   const openIssueModal = () => {
     setIsModalShow(true)
@@ -28,7 +29,7 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
     <>
       <div className='issue' onClick={openIssueModal}>
         <h2 className='issue__title'>
-          <span className={`issue__state ${state}`}></span>
+          <span className={`issue__state ${status}`}></span>
           {title}
         </h2>
         <p className='issue__body'>{body}</p>
