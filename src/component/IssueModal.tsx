@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import ModalHeader from './ModalHeader';
+import ModalFooter from './ModalFooter';
 
 // type and provider
 import { IssueType } from '../context/IssuesProvider';
@@ -91,11 +92,11 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
       <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} />
       <label className="modal__issue-label modal__content">
-        status :
+        Status :
         <select
           value={editedStatus}
           name="label"
-          className='modal__input'
+          className='modal__input modal__input-status'
           disabled={!isEdit}
           onChange={(e) => setEditedStatus(e.target.value)}>
           <option value="Open">Open</option>
@@ -106,31 +107,22 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       <label className="modal__issue-title modal__content">
         Title :
         <input
-          className="modal__issue-titleInput modal__input"
+          className="modal__input"
           type="text"
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
           disabled={!isEdit} />
       </label>
       <label className='modal__issue-body modal__content'>
-        body :
+        Body :
         <textarea
-          className='modal__issue-bodyInput modal__input'
+          className='modal__input modal__input-body'
           value={editedBody}
           onChange={(e) => setEditedBody(e.target.value)}
           disabled={!isEdit}
         />
       </label>
-      <div className='modal__issue-btn'>
-        {isEdit
-          ? (<>
-            <button onClick={closeIssueModal} className="btn-danger">cancel</button>
-            <button onClick={saveIssueModal}>store</button>
-          </>)
-          : <button onClick={closeIssueModal} className="btn-danger">close</button>
-        }
-
-      </div>
+      <ModalFooter isEdit={isEdit} closeIssueModal={closeIssueModal} saveIssueModal={saveIssueModal} />
     </Modal>
   )
 }

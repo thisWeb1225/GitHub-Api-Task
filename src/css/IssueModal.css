@@ -31,19 +31,19 @@
   filter: brightness(0.9);
 }
 
-.modal__issue-title, .modal__issue-body {
+.modal__content {
   display: flex;
   align-items: center;
   gap: 16px
 }
 
-.modal__issue-bodyInput {
+.modal__input-body{
   height: 300px;
   resize: none;
   overflow-y: scroll;
 }
 
-.modal__issue-titleInput, .modal__issue-bodyInput {
+.modal__input {
   flex: 1;
   border-radius: 0.25rem;
   padding: 16px;
@@ -52,10 +52,15 @@
   color: #fff;
 }
 
-:is(.modal__issue-titleInput, .modal__issue-bodyInput):disabled {
-  background: transparent;
+.modal__input:disabled {
+  background: #23232b;
   border: 1px solid rgba(255,255,255,.3);
   outline: unset;
+}
+
+.modal__input-status:disabled {
+  opacity: 1;
+  border: none;
 }
 
 .modal__issue-btn {
