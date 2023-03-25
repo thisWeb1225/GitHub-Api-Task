@@ -83,9 +83,36 @@ app.get('/getRepoIssues', async (req, res) => {
 app.get('/updateIssue', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
 
-  const title = req.query.title;
-  const body = req.query.body;
   const number = req.query.number;
+  const labels = req.query.labels;
+  // "labels":["Open"]
+
+  try {
+    const response = await axios({
+      method: 'PATCH',
+      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues/${number}`,
+      headers: {
+        Authorization: authorization,
+      },
+      data: {
+        labels,
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error('status code is not 200');
+    }
+    const data = await response.data;
+    res.json(data);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+app.get('/updateIssueLabela', async (req, res) => {
+  const authorization = `Bearer ${req.query.token}`;
+
+  const labels = req.query.labels;
 
   try {
     const response = await axios({
@@ -97,6 +124,7 @@ app.get('/updateIssue', async (req, res) => {
       data: {
         title,
         body,
+        state,
       },
     });
 

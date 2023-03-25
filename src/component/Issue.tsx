@@ -18,7 +18,7 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
 
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
 
-  const { title, body, state, number } = issue;
+  const { title, body, state, number, labels } = issue;
 
   const openIssueModal = () => {
     setIsModalShow(true)

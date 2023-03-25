@@ -30,8 +30,11 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
   const [editedState, setEditedState] = useState('');
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
+  const [editedLabel, setEditedLabel] = useState('');
 
-  const { number, title, body, state } = issue
+  const { number, title, body, state, labels } = issue;
+  const status = labels[0]?.name;
+  console.log(status)
 
   const closeIssueModal = () => {
     setIsModalShow(() => false);
@@ -42,14 +45,23 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       alert('內容要超過 30 字');
       return;
     }
+    if (!(editedTitle.trim())) {
+      alert('必須填入標題')
+      return
+    }
 
     // api
     const updateIssue = async () => {
-      const token = localStorage.getItem('accessToken');
-      if (!token) return
-      const data = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
-      setShouldRenderIssues(true);
-      setIsModalShow(false);
+      if (window.confirm('確定要儲存嗎？')) {
+        const token = localStorage.getItem('accessToken');
+        if (!token) return
+        const data = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
+        console.log(data)
+        setShouldRenderIssues(true);
+        setIsModalShow(false);
+      } else {
+        return
+      }
     }
 
     updateIssue();
@@ -59,8 +71,8 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     if (isModalShow) {
       setEditedTitle(title);
       setEditedBody(body);
-      setEditedState(state)
-      setIsEdit(false)
+      setEditedState(state);
+      setIsEdit(false);
     } else {
       setEditedTitle('');
       setEditedBody('');
@@ -72,19 +84,27 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
   return (
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
       <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} />
-      <label className="modal__issue-title">
+      <label className="modal__issue-label modal__content">
+        status :
+        <select name="label" id="label" className='modal__input' disabled={!isEdit} onChange={(e) => setEditedLabel(e.target.value)}>
+          <option value="Open">Open</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+      </label>
+      <label className="modal__issue-title modal__content">
         Title :
         <input
-          className="modal__issue-titleInput"
+          className="modal__issue-titleInput modal__input"
           type="text"
           value={editedTitle}
           onChange={(e) => setEditedTitle(e.target.value)}
           disabled={!isEdit} />
       </label>
-      <label className='modal__issue-body'>
+      <label className='modal__issue-body modal__content'>
         body :
         <textarea
-          className='modal__issue-bodyInput'
+          className='modal__issue-bodyInput modal__input'
           value={editedBody}
           onChange={(e) => setEditedBody(e.target.value)}
           disabled={!isEdit}

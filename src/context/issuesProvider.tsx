@@ -6,6 +6,7 @@ export type IssueType = {
   title: string,
   body: string,
   state: string,
+  labels: any[],
 }
 
 type IssuesListType = { issuesList: IssueType[] };
