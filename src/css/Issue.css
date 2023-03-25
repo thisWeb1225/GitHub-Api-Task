@@ -1,6 +1,7 @@
 .issue {
   padding: 32px;
   border: 1px solid #fff;
+  border-radius: 0.25rem;
   background: #23232b;
   transition: .3s;
   width: 100%;
@@ -29,17 +30,17 @@
 
 .issue__state {
   display: inline-block;
-  width: 12px;
-  aspect-ratio: 1 / 1;
+  min-width: 12px;
+  min-height: 12px;
   border-radius: 50%;
 }
 
 .issue__state.open {
-  background: lightgreen;
+  background: #e3e3e3;
 }
-.issue__state.close {
-  background: gray;
+.issue__state.done {
+  background: #8fd460;
 }
 .issue__state.progress {
-  background: orange;
+  background: #f89f9a;
 }
