@@ -11,28 +11,47 @@
   align-items: center;
 }
 
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__header-btn {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.modal__header-btn:first-of-type {
+  margin-left: auto;
+  margin-right: 24px;
+  color: #f37370;
+}
+
+.modal__header-btn:hover {
+  filter: brightness(0.9);
+}
+
 .modal__issue-title, .modal__issue-body {
   display: flex;
   align-items: center;
-}
-
-.modal__issue-titleInput {
-  flex: 1;
+  gap: 16px
 }
 
 .modal__issue-bodyInput {
-  flex: 1;
   height: 300px;
   resize: none;
   overflow-y: scroll;
 }
 
 .modal__issue-titleInput, .modal__issue-bodyInput {
-  padding: 8px;
+  flex: 1;
+  border-radius: 0.25rem;
+  padding: 16px;
 }
 
 :is(.modal__issue-titleInput, .modal__issue-bodyInput):disabled {
   background: transparent;
+  border: 1px solid rgba(255,255,255,.3);
   outline: unset;
 }
 

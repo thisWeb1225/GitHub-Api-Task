@@ -6,8 +6,8 @@
   justify-content: center;
 }
 
-@media (width < 640px) {
+@media (width < 700px) {
   .issuesList {
-    grid-template-columns: 80%;
+    grid-template-columns: 1fr;
   }
 }

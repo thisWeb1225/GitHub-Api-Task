@@ -1,13 +1,20 @@
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
+
+// type and provider
 import { IssueType } from '../context/IssuesProvider';
 import { ReducerAction } from '../context/IssuesProvider';
 import { ReducerActionType } from '../context/IssuesProvider';
+
+// api
 import api from '../api/api';
 
-import './../css/IssueModal.css'
+// font-awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-Modal.setAppElement('#root');
+// css
+import './../css/IssueModal.css'
 
 type PropsType = {
   issue: IssueType;
@@ -19,8 +26,10 @@ type PropsType = {
 
 }
 
+Modal.setAppElement('#root');
+
 const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalShow, setShouldRenderIssues }: PropsType) => {
-  const [isEdited, setIsEdited] = useState<boolean>(true);
+  const [isEdited, setIsEdited] = useState(false);
   const [editedState, setEditedState] = useState('');
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
@@ -65,9 +74,13 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
 
   return (
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
-      <h2 className="modal__title">編輯 {title}</h2>
+      <div className='modal__header'>
+        <h2 className="modal__title">Issue Name : {title}</h2>
+        <FontAwesomeIcon icon={faTrash} className="modal__header-btn" />
+        <FontAwesomeIcon icon={faPenToSquare} className="modal__header-btn" />
+      </div>
       <label className="modal__issue-title">
-        標題：
+        Title :
         <input
           className="modal__issue-titleInput"
           type="text"
@@ -76,7 +89,7 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
           disabled={!isEdited} />
       </label>
       <label className='modal__issue-body'>
-        內容：
+        body :
         <textarea
           className='modal__issue-bodyInput'
           value={editedBody}
@@ -85,8 +98,14 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
         />
       </label>
       <div className='modal__issue-btn'>
-        <button onClick={closeIssueModal} className="btn-danger">取消</button>
-        <button onClick={saveIssueModal}>儲存</button>
+        {isEdited
+          ? (<>
+            <button onClick={closeIssueModal} className="btn-danger">cancel</button>
+            <button onClick={saveIssueModal}>store</button>
+          </>)
+          : <button onClick={closeIssueModal} className="btn-danger">close</button>
+        }
+
       </div>
     </Modal>
   )
