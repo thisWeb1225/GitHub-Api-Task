@@ -83,9 +83,9 @@ app.get('/getRepoIssues', async (req, res) => {
 app.get('/updateIssue', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
 
+  const title = req.query.title;
+  const body = req.query.body;
   const number = req.query.number;
-  const labels = req.query.labels;
-  // "labels":["Open"]
 
   try {
     const response = await axios({
@@ -95,7 +95,9 @@ app.get('/updateIssue', async (req, res) => {
         Authorization: authorization,
       },
       data: {
-        labels,
+        title,
+        body,
+        state,
       },
     });
 
@@ -112,7 +114,9 @@ app.get('/updateIssue', async (req, res) => {
 app.get('/updateIssueLabela', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
 
+  const number = req.query.number;
   const labels = req.query.labels;
+  // "labels":["Open"]
 
   try {
     const response = await axios({
@@ -122,9 +126,7 @@ app.get('/updateIssueLabela', async (req, res) => {
         Authorization: authorization,
       },
       data: {
-        title,
-        body,
-        state,
+        labels,
       },
     });
 
