@@ -63,6 +63,8 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
         const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody });
         const reaturnLabels = await api.updateIssueLabels(token, number, labels)
 
+        console.log(reaturnLabels)
+
         setShouldRenderIssues(true);
         setIsModalShow(false)
       } else {
