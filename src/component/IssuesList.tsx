@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import Issue from "./Issue"
+import Filter from "./filter"
 
 import useIssuesList from "../hook/useIssuesList"
 import api from "../api/api"
@@ -59,33 +60,11 @@ const IssuesList = () => {
 
   return (
     <>
-      <section className="filter">
-        <select
-          name="status"
-          title="choose status"
-          className="filter__input filter__input-status"
-          onChange={(e) => chooseStatus(e.target.value)}
-        >
-          <option value="All">All</option>
-          <option value="Open">Open</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
-        </select>
-
-        <select
-          name="time"
-          title="sort with time"
-          className="filter__input filter__input-time"
-          onChange={(e) => sortWithTime(e.target.value)}
-        >
-          <option value="New">From New</option>
-          <option value="Old">From Old</option>
-        </select>
-
-        <input type="text" className="filter__input filter__input-search" placeholder="Search" onChange={(e) => searchIssueTitle(e.target.value)} />
-
-
-      </section>
+      <Filter
+        issuesList={issuesList}
+        filteredIssuesList={filteredIssuesList}
+        setFilteredIssuesList={setFilteredIssuesList}
+      />
       <main className="issuesList">
         {filteredIssuesList.map(issue => {
           return (

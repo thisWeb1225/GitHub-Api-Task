@@ -16,23 +16,26 @@ interface AccessTokenDataType {
 
 function App() {
   const [loginState, setLoginState] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const [filteredIssues, setFilteredIssues] = useState([] as any);
 
   useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      setLoginState(true);
+      return
+    }
+
     const queryString = window.location.search;
     const urlParam = new URLSearchParams(queryString);
     const codeParam: string | null = urlParam.get('code');
 
     if (!codeParam) return;
+
     api.getAccessToken(codeParam)
       .then((data: AccessTokenDataType) => {
         const token = data?.access_token;
         if (token) {
           localStorage.setItem('accessToken', token);
           setLoginState(true);
-          setToken(token)
         }
       })
   }, [])
