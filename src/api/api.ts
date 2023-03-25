@@ -5,7 +5,7 @@ type EditedIssueType = {
   number: number,
   editedTitle: string,
   editedBody: string,
-  editedState: string,
+  editedState?: string,
 }
 
 type ApiType = {
@@ -49,7 +49,7 @@ const api: ApiType = {
   },
 
   updateIssue: async (token, issue) => {
-    const {number , editedTitle , editedBody, editedState} = issue;
+    const {number , editedTitle , editedBody, editedState = 'open'} = issue;
     try {
       const response = await axios({
         method: 'GET',

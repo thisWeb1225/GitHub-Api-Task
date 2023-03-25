@@ -28,7 +28,6 @@ Modal.setAppElement('#root');
 
 const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalShow, setShouldRenderIssues }: PropsType) => {
   const [isEdit, setIsEdit] = useState(true);
-  const [editedState, setEditedState] = useState('');
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
   const [editedStatus, setEditedStatus] = useState('');
@@ -40,7 +39,7 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     setIsModalShow(false);
   }
 
-  const saveIssueModal = () => {
+  const saveIssue = () => {
     if (editedBody.trim().length < 30) {
       alert('內容要超過 30 字');
       return;
@@ -61,7 +60,7 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
         // handle labels
         const labels = [editedStatus]
 
-        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody, editedState });
+        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody });
         const reaturnLabels = await api.updateIssueLabels(token, number, labels)
 
         setShouldRenderIssues(true);
@@ -74,24 +73,42 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     updateIssue();
   }
 
+  const deleteIssue = () => {
+    const deleteIssue = async () => {
+      if (window.confirm('確定要刪除嗎？')) {
+        // check
+        const token = localStorage.getItem('accessToken');
+        if (!token) return
+
+        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody, editedState: 'closed' });
+
+        setShouldRenderIssues(true);
+        setIsModalShow(false)
+      } else {
+        return
+      }
+    }
+
+    deleteIssue();
+  }
+
+
   useEffect(() => {
     if (isModalShow) {
       setEditedTitle(title);
       setEditedBody(body);
-      setEditedState(state);
       setEditedStatus(status);
       setIsEdit(false);
     } else {
       setEditedTitle('');
       setEditedBody('');
-      setEditedState('');
       setIsEdit(false)
     }
   }, [isModalShow])
 
   return (
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
-      <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} />
+      <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} deleteIssue={deleteIssue} />
       <ModalContent
         isEdit={isEdit}
         editedStatus={editedStatus}
@@ -101,7 +118,7 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
         editedBody={editedBody}
         setEditedBody={setEditedBody}
       />
-      <ModalFooter isEdit={isEdit} closeIssueModal={closeIssueModal} saveIssueModal={saveIssueModal} />
+      <ModalFooter isEdit={isEdit} closeIssueModal={closeIssueModal} saveIssue={saveIssue} />
     </Modal>
   )
 }

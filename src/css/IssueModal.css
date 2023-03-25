@@ -8,12 +8,25 @@
   background-color: #23232b !important;
   overflow: hidden !important;
   display: grid;
+  gap: 16px;
   align-items: center;
+}
+
+@media (width < 600px) {
+  .ReactModal__Content {
+    padding: 16px !important;
+    inset: 5% !important;
+  }
 }
 
 .modal__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.modal__title {
+  margin-right: 32px;
 }
 
 .modal__header-btn {
@@ -24,6 +37,9 @@
 .modal__header-btn:first-of-type {
   margin-left: auto;
   margin-right: 24px;
+}
+
+.modal__header-btn:last-of-type {
   color: #f37370;
 }
 
@@ -34,11 +50,12 @@
 .modal__content {
   display: flex;
   align-items: center;
-  gap: 16px
+  gap: 16px;
+  white-space: nowrap;
 }
 
 .modal__input-body{
-  height: 300px;
+  height: 250px;
   resize: none;
   overflow-y: scroll;
 }
