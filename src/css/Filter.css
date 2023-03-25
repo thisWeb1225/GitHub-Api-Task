@@ -1,0 +1,23 @@
+.filter {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter__input {
+  border-radius: 0.25rem;
+  transition: 0.3s;
+}
+
+.filter__input-status {
+  flex: 1;
+}
+
+.filter__input-search {
+  flex: 10;
+}
+
+.filter__input-time {
+  flex: 1;
+}

@@ -1,11 +1,13 @@
 .ReactModal__Overlay {
-  background-color: rgba(0,0,0,0.5) !important;
+  background-color: rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .ReactModal__Content {
   padding: 32px !important;
   inset: 10% !important;
-  background-color: #23232b !important;
+  background-color: var(--bg) !important;
   overflow: hidden !important;
   display: grid;
   gap: 16px;
@@ -32,6 +34,7 @@
 .modal__header-btn {
   cursor: pointer;
   font-size: 20px;
+  transition: .3s;
 }
 
 .modal__header-btn:first-of-type {
@@ -39,12 +42,20 @@
   margin-right: 24px;
 }
 
-.modal__header-btn:last-of-type {
-  color: #f37370;
+.modal__header-btn:first-of-type.true {
+  color: var(--primary);
 }
 
-.modal__header-btn:hover {
-  filter: brightness(0.9);
+.modal__header-btn:last-of-type {
+  color: var(--danger);
+}
+
+.modal__header-btn:first-of-type:hover {
+  color: var(--primary-hover);
+}
+
+.modal__header-btn:last-of-type:hover {
+  color: var(--danger-hover);
 }
 
 .modal__content {
@@ -62,22 +73,15 @@
 
 .modal__input {
   flex: 1;
-  border-radius: 0.25rem;
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,.4);
-  transition: .3s;
-  color: #fff;
+  border: 1px solid var(--white);
 }
 
 .modal__input:disabled {
-  background: #23232b;
-  border: 1px solid rgba(255,255,255,.3);
+  background-color: transparent;
+  border: 1px solid var(--gray);
   outline: unset;
-}
-
-.modal__input-status:disabled {
   opacity: 1;
-  border: none;
+  color: var(--white);
 }
 
 .modal__issue-btn {
@@ -88,4 +92,12 @@
 
 .modal__issue-btn > button {
   width: max(20%, 108px);
+}
+
+.modal__issue-btn > button:last-of-type {
+  background-color: var(--primary);
+}
+
+.modal__issue-btn > button:last-of-type:hover {
+  background-color: var(--primary-hover);
 }

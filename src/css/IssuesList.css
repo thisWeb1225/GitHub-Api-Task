@@ -1,5 +1,5 @@
 .issuesList {
-  margin: 32px 10%;
+  margin: 0px 10%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
@@ -12,28 +12,13 @@
   }
 }
 
-.filter {
-  margin-top: 32px;
-  width: 80%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+.create__btn {
+  margin-left: 10%;
+  align-self: flex-start;
+  background-color: var(--primary);
 }
 
-.filter__input {
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 0.25rem;
-}
-
-.filter__input-status {
-  flex: 1;
-}
-
-.filter__input-search {
-  flex: 10;
-}
-
-.filter__input-time {
-  flex: 1;
+.create__btn:hover {
+  background-color: var(--primary);
+  filter: brightness(0.8);
 }

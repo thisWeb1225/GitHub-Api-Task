@@ -65,6 +65,7 @@ const IssuesList = () => {
         filteredIssuesList={filteredIssuesList}
         setFilteredIssuesList={setFilteredIssuesList}
       />
+      <button className="create__btn">Create Issue</button>
       <main className="issuesList">
         {filteredIssuesList.map(issue => {
           return (

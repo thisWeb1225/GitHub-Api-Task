@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&family=Poppins:wght@100;200;300;400;500;700&display=swap');
+
+:root {
+  font-family: 'Poppins','Noto Sans TC', sans-serif;
+  color-scheme: light dark;
+  background-color: #222;
+  color: rgba(255, 255, 255, 0.9);
+
+  --bg: #222;
+  --bg-light: #2a2a2a;
+  --bg-dark: #1a1a1a;
+  --primary: #138585;
+  --primary-hover: #146262;
+  --danger: #d32029;
+  --danger-hover: #791a1f;
+  --white: rgba(255, 255, 255, 0.9);
+  --gray: rgba(255,255,255,.2)
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+button {
+  padding: 12px 32px;
+  border: 1px solid transparent;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+button, input, textarea, select {
+  border-radius: 0.25rem;
+  background-color: var(--bg-light);
+  transition: 0.3s;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+:is(button, input, textarea, select):hover {
+  background-color: var(--bg-dark);
+}
+
+input, textarea, select {
+  padding: 16px;
+  border: 1px solid var(--gray);
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

@@ -17,7 +17,7 @@ const ModalHeader = ({ title, isEdit, setIsEdit, deleteIssue }: PropsType) => {
   return (
     <div className='modal__header'>
       <h2 className="modal__title">{title}</h2>
-      <FontAwesomeIcon icon={faPenToSquare} className="modal__header-btn" onClick={editIssue} />
+      <FontAwesomeIcon icon={faPenToSquare} className={`modal__header-btn ${isEdit}`} onClick={editIssue} />
       <FontAwesomeIcon icon={faTrash} className="modal__header-btn" onClick={deleteIssue} />
     </div>
   )

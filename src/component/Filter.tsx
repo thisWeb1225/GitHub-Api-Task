@@ -1,4 +1,5 @@
 import { IssueType } from "../context/IssuesProvider"
+import './../css/Filter.css'
 
 
 type PropsType = {
