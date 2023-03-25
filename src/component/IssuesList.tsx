@@ -21,7 +21,6 @@ const IssuesList = () => {
     }
 
     if (shouldRenderIssues) {
-      console.log(issuesList)
       getRepoIssues()
       setShouldRenderIssues(false)
     }

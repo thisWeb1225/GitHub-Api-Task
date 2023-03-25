@@ -85,6 +85,7 @@ app.get('/updateIssue', async (req, res) => {
 
   const title = req.query.title;
   const body = req.query.body;
+  const state = req.query.state;
   const number = req.query.number;
 
   try {
@@ -98,6 +99,7 @@ app.get('/updateIssue', async (req, res) => {
         title,
         body,
         state,
+        number,
       },
     });
 

@@ -64,7 +64,6 @@ const api: ApiType = {
       })
 
       const data = await response.data
-      console.log(data)
 
       return data
     } catch (err) {
@@ -86,7 +85,6 @@ const api: ApiType = {
       })
 
       const data = await response.data
-      console.log(data)
 
       return data
     } catch (err) {
