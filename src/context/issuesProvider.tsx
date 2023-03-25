@@ -15,9 +15,7 @@ const initIssuesListState: IssuesListType = { issuesList: [] };
 
 const REDUCER_ACTION_TYPE = {
   GET: 'GET',
-  UPDATE: 'UPDATE',
-  CLOSE: 'CLOSE',
-  CREATE: 'CREATE',
+  SEARCH: 'SEARCH',
   FILTER: 'FILTER'
 }
 
@@ -27,6 +25,7 @@ export type ReducerAction = {
   type: string,
   payload?: IssueType,
   listPayload?: IssueType[];
+  keyword?: string,
 }
 
 const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType => {
@@ -39,24 +38,7 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
       return { ...state, issuesList: action.listPayload }
     }
 
-    case REDUCER_ACTION_TYPE.UPDATE: {
-      if (!action.payload) {
-        throw new Error('action.payload missing in UPDATE action');
-      }
-
-      const { number, title, body, state } = action.payload;
-
-    }
-
-    case REDUCER_ACTION_TYPE.CLOSE: {
-      if (!action.payload) {
-        throw new Error('action.payload missing in CLOSE action');
-      }
-
-      const { state } = action.payload;
-    }
-
-    case REDUCER_ACTION_TYPE.CREATE: {
+    case REDUCER_ACTION_TYPE.SEARCH: {
       if (!action.payload) {
         throw new Error('action.payload missing in CREATE action');
       }

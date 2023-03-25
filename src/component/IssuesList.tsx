@@ -8,6 +8,7 @@ import api from "../api/api"
 import './../css/IssuesList.css'
 
 const IssuesList = () => {
+  const [filteredIssuesList, setFilteredIssuesList] = useState([] as any[]);
   const [shouldRenderIssues, setShouldRenderIssues] = useState(true);
 
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
@@ -27,21 +28,38 @@ const IssuesList = () => {
 
   }, [issuesList, shouldRenderIssues])
 
+  useEffect(() => {
+    setFilteredIssuesList(issuesList)
+  }, [issuesList])
+
+
+  const searchIssueTitle = (keyword: string) => {
+    setFilteredIssuesList(() => {
+      return issuesList.filter((issue => issue.title.toLowerCase().includes(keyword.toLocaleLowerCase())))
+    })
+  }
+
+
 
   return (
-    <main className="issuesList">
-      {issuesList.map(issue => {
-        return (
-          <Issue
-            issue={issue}
-            key={issue.number}
-            dispatch={dispatch}
-            REDUCER_ACTIONS={REDUCER_ACTIONS}
-            setShouldRenderIssues={setShouldRenderIssues}
-          />
-        )
-      })}
-    </main>
+    <>
+      <section className="filter">
+        <input type="text" className="filter__search" placeholder="Search" onChange={(e) => searchIssueTitle(e.target.value)} />
+      </section>
+      <main className="issuesList">
+        {filteredIssuesList.map(issue => {
+          return (
+            <Issue
+              issue={issue}
+              key={issue.number}
+              dispatch={dispatch}
+              REDUCER_ACTIONS={REDUCER_ACTIONS}
+              setShouldRenderIssues={setShouldRenderIssues}
+            />
+          )
+        })}
+      </main>
+    </>
   )
 }
 

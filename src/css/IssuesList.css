@@ -1,5 +1,5 @@
 .issuesList {
-  margin: 64px 10%;
+  margin: 32px 10%;
   display: grid;
   grid-template-columns: repeat(2, minmax(320px, 640px));
   gap: 32px;
@@ -10,4 +10,17 @@
   .issuesList {
     grid-template-columns: 1fr;
   }
+}
+
+
+.filter {
+  margin-top: 32px;
+  width: 80%;
+}
+
+.filter__search {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.25rem;
 }
