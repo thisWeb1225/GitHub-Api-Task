@@ -9,10 +9,11 @@ type EditedIssueType = {
 }
 
 type ApiType = {
-  getAccessToken: (codeParam: string | null) => any,
-  getRepoIssues: (token: string | null, page: number) => any,
-  updateIssue: (token: string | null, issue: EditedIssueType) => any,
+  getAccessToken: (codeParam: string) => any,
+  getRepoIssues: (token: string, page: number) => any,
+  updateIssue: (token: string, issue: EditedIssueType) => any,
   updateIssueLabels: (token: string ,number: number, labels: string[]) => any,
+  createIssue: (token: string, issue: EditedIssueType) => any,
 }
 
 const api: ApiType = {
@@ -81,6 +82,29 @@ const api: ApiType = {
           token: token,
           number: number,
           labels: labels
+        }
+      })
+
+      const data = await response.data
+
+      return data
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+  },
+
+  createIssue: async (token, issue) => {
+    const {number , editedTitle , editedBody} = issue;
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: 'http://localhost:4000/createIssue',
+        params: {
+          token: token,
+          title: editedTitle,
+          body: editedBody,
+          labels: ['Open']
         }
       })
 
