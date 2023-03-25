@@ -12,6 +12,7 @@ type ApiType = {
   getAccessToken: (codeParam: string | null) => any,
   getRepoIssues: (token: string | null, page: number) => any,
   updateIssue: (token: string | null, issue: EditedIssueType) => any,
+  updateIssueLabels: (token: string ,number: number, labels: string[]) => any,
 }
 
 const api: ApiType = {
@@ -70,8 +71,30 @@ const api: ApiType = {
       console.error(err);
       return err;
     }
-  }
+  },
 
+  updateIssueLabels: async (token ,number, labels) => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: 'http://localhost:4000/updateIssueLabels',
+        params: {
+          token: token,
+          number: number,
+          labels: labels
+        }
+      })
+
+      const data = await response.data
+      console.log(data)
+
+      return data
+    } catch (err) {
+      console.error(err);
+      return err;
+    }
+  }
+ 
 }
 
 export default api;

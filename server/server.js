@@ -111,7 +111,7 @@ app.get('/updateIssue', async (req, res) => {
   }
 });
 
-app.get('/updateIssueLabela', async (req, res) => {
+app.get('/updateIssueLabels', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
 
   const number = req.query.number;
