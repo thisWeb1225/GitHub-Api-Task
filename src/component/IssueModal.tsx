@@ -6,8 +6,6 @@ import ModalContent from './ModalContent';
 
 // type and provider
 import { IssueType } from '../context/IssuesProvider';
-import { ReducerAction } from '../context/IssuesProvider';
-import { ReducerActionType } from '../context/IssuesProvider';
 
 // api
 import api from '../api/api';
@@ -16,18 +14,18 @@ import api from '../api/api';
 import './../css/IssueModal.css'
 
 type PropsType = {
-  issue: IssueType;
-  dispatch: React.Dispatch<ReducerAction>,
-  REDUCER_ACTIONS: ReducerActionType
-  isModalShow: boolean;
-  setIsModalShow: React.Dispatch<React.SetStateAction<boolean>>
-  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>
+  issue: IssueType,
+  isModalShow: boolean,
+  setIsModalShow: React.Dispatch<React.SetStateAction<boolean>>,
+  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>,
+  isCreate: boolean,
 }
 
 Modal.setAppElement('#root');
 
-const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalShow, setShouldRenderIssues }: PropsType) => {
-  const [isEdit, setIsEdit] = useState(true);
+// component
+const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues, isCreate }: PropsType) => {
+  const [isEdit, setIsEdit] = useState(isCreate);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
   const [editedStatus, setEditedStatus] = useState('');
@@ -52,23 +50,30 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
     // api
     const updateIssue = async () => {
 
-      if (window.confirm('確定要儲存嗎？')) {
+      if (window.confirm('確定要送送出嗎？')) {
         // check
         const token = localStorage.getItem('accessToken');
         if (!token) return
 
-        // handle labels
-        const labels = [editedStatus]
+        if (isCreate) {
+          // create issue
+          const reaturnContent = await api.createIssue(token, { editedTitle, editedBody });
 
-        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody });
-        const reaturnLabels = await api.updateIssueLabels(token, number, labels)
+          setShouldRenderIssues(true);
+          setIsModalShow(false);
+        } else {
+          // update issue
 
-        console.log(reaturnLabels)
+          // handle labels
+          const labels = [editedStatus]
 
-        setShouldRenderIssues(true);
-        setIsModalShow(false)
+          const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody });
+          const reaturnLabels = await api.updateIssueLabels(token, number, labels)
+          setShouldRenderIssues(true);
+          setIsModalShow(false);
+        }
       } else {
-        return
+        return;
       }
     }
 
@@ -100,17 +105,22 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
       setEditedTitle(title);
       setEditedBody(body);
       setEditedStatus(status);
-      setIsEdit(false);
     } else {
       setEditedTitle('');
       setEditedBody('');
-      setIsEdit(false)
+      setIsEdit(isCreate);
     }
   }, [isModalShow])
 
   return (
     <Modal isOpen={isModalShow} onRequestClose={closeIssueModal}>
-      <ModalHeader title={title} isEdit={isEdit} setIsEdit={setIsEdit} deleteIssue={deleteIssue} />
+      <ModalHeader
+        title={title}
+        isEdit={isEdit}
+        setIsEdit={setIsEdit}
+        deleteIssue={deleteIssue}
+        isCreate={isCreate}
+      />
       <ModalContent
         isEdit={isEdit}
         editedStatus={editedStatus}
@@ -120,7 +130,12 @@ const IssueModal = ({ issue, dispatch, REDUCER_ACTIONS, isModalShow, setIsModalS
         editedBody={editedBody}
         setEditedBody={setEditedBody}
       />
-      <ModalFooter isEdit={isEdit} closeIssueModal={closeIssueModal} saveIssue={saveIssue} />
+      <ModalFooter
+        isEdit={isEdit}
+        closeIssueModal={closeIssueModal}
+        saveIssue={saveIssue}
+        isCreate={isCreate}
+      />
     </Modal>
   )
 }

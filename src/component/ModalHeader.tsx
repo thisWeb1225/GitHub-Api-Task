@@ -7,9 +7,10 @@ type PropsType = {
   isEdit: boolean,
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>,
   deleteIssue: () => void,
+  isCreate: boolean,
 }
 
-const ModalHeader = ({ title, isEdit, setIsEdit, deleteIssue }: PropsType) => {
+const ModalHeader = ({ title, isEdit, setIsEdit, deleteIssue, isCreate }: PropsType) => {
   const editIssue = () => {
     setIsEdit(!isEdit)
   }
@@ -17,8 +18,11 @@ const ModalHeader = ({ title, isEdit, setIsEdit, deleteIssue }: PropsType) => {
   return (
     <div className='modal__header'>
       <h2 className="modal__title">{title}</h2>
-      <FontAwesomeIcon icon={faPenToSquare} className={`modal__header-btn ${isEdit}`} onClick={editIssue} />
-      <FontAwesomeIcon icon={faTrash} className="modal__header-btn" onClick={deleteIssue} />
+      <FontAwesomeIcon icon={faPenToSquare} className={`modal__header-btn ${isEdit} btn-edit`} onClick={editIssue} />
+      {isCreate
+        ? <></>
+        : <FontAwesomeIcon icon={faTrash} className="modal__header-btn btn-delete" onClick={deleteIssue} />
+      }
     </div>
   )
 }

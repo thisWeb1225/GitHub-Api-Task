@@ -36,11 +36,10 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
       </div>
       <IssueModal
         issue={issue}
-        dispatch={dispatch}
-        REDUCER_ACTIONS={REDUCER_ACTIONS}
         isModalShow={isModalShow}
         setIsModalShow={setIsModalShow}
         setShouldRenderIssues={setShouldRenderIssues}
+        isCreate={false}
       />
     </>
 

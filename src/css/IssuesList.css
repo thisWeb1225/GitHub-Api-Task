@@ -1,5 +1,5 @@
 .issuesList {
-  margin: 0px 10%;
+  margin: 0px 10% 128px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 
 import Issue from "./Issue"
-import Filter from "./filter"
+import Filter from "./Filter"
+import IssueCreate from "./IssueCreate"
 
 import useIssuesList from "../hook/useIssuesList"
 import api from "../api/api"
@@ -33,29 +34,8 @@ const IssuesList = () => {
     setFilteredIssuesList(issuesList)
   }, [issuesList])
 
+  const createIssue = () => {
 
-  const searchIssueTitle = (keyword: string) => {
-    setFilteredIssuesList(() => {
-      return issuesList.filter((issue => issue.title.toLowerCase().includes(keyword.toLocaleLowerCase())))
-    })
-  }
-
-  const chooseStatus = (status: string) => {
-    if (status === 'All') {
-      setFilteredIssuesList(issuesList)
-    } else {
-      setFilteredIssuesList(() => {
-        return issuesList.filter(issue => issue.labels[0]?.name === status)
-      })
-    }
-  }
-
-  const sortWithTime = (time: string) => {
-    if (time === 'New') {
-      setFilteredIssuesList(issuesList)
-    } else {
-      setFilteredIssuesList([...issuesList].reverse())
-    }
   }
 
   return (
@@ -65,7 +45,10 @@ const IssuesList = () => {
         filteredIssuesList={filteredIssuesList}
         setFilteredIssuesList={setFilteredIssuesList}
       />
-      <button className="create__btn">Create Issue</button>
+      <IssueCreate
+        setShouldRenderIssues={setShouldRenderIssues}
+        isCreate={true}
+      />
       <main className="issuesList">
         {filteredIssuesList.map(issue => {
           return (

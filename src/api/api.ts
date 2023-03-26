@@ -2,7 +2,7 @@ import axios from "axios";
 import { IssueType } from "../context/IssuesProvider";
 
 type EditedIssueType = {
-  number: number,
+  number?: number,
   editedTitle: string,
   editedBody: string,
   editedState?: string,
@@ -95,7 +95,7 @@ const api: ApiType = {
   },
 
   createIssue: async (token, issue) => {
-    const {number , editedTitle , editedBody} = issue;
+    const {editedTitle , editedBody} = issue;
     try {
       const response = await axios({
         method: 'GET',

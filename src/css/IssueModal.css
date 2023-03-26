@@ -1,7 +1,7 @@
 .ReactModal__Overlay {
   background-color: rgba(0,0,0,0.6) !important;
-  backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
 .ReactModal__Content {
@@ -42,19 +42,19 @@
   margin-right: 24px;
 }
 
-.modal__header-btn:first-of-type.true {
+.modal__header-btn.btn-edit.true {
   color: var(--primary);
 }
 
-.modal__header-btn:last-of-type {
+.modal__header-btn.btn-delete {
   color: var(--danger);
 }
 
-.modal__header-btn:first-of-type:hover {
+.modal__header-btn.btn-edit:hover {
   color: var(--primary-hover);
 }
 
-.modal__header-btn:last-of-type:hover {
+.modal__header-btn.btn-delete:hover {
   color: var(--danger-hover);
 }
 
@@ -82,6 +82,7 @@
   outline: unset;
   opacity: 1;
   color: var(--white);
+  cursor: auto;
 }
 
 .modal__issue-btn {
