@@ -50,25 +50,25 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
     // api
     const updateIssue = async () => {
 
-      if (window.confirm('確定要送送出嗎？')) {
+      if (window.confirm('確定要送出嗎？')) {
         // check
         const token = localStorage.getItem('accessToken');
         if (!token) return
 
+        // handle labels
+        const labels = [editedStatus]
+
         if (isCreate) {
           // create issue
-          const reaturnContent = await api.createIssue(token, { editedTitle, editedBody });
+          await api.createIssue(token, { editedTitle, editedBody, labels });
 
           setShouldRenderIssues(true);
           setIsModalShow(false);
         } else {
           // update issue
+          await api.updateIssue(token, { number, editedTitle, editedBody });
+          await api.updateIssueLabels(token, number, labels);
 
-          // handle labels
-          const labels = [editedStatus]
-
-          const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody });
-          const reaturnLabels = await api.updateIssueLabels(token, number, labels)
           setShouldRenderIssues(true);
           setIsModalShow(false);
         }

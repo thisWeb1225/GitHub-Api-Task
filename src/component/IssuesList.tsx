@@ -34,10 +34,6 @@ const IssuesList = () => {
     setFilteredIssuesList(issuesList)
   }, [issuesList])
 
-  const createIssue = () => {
-
-  }
-
   return (
     <>
       <Filter
