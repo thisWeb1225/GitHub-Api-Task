@@ -6,6 +6,8 @@ import ModalContent from './ModalContent';
 
 // type and provider
 import { IssueType } from '../context/IssuesProvider';
+import useIssuesList from '../hook/useIssuesList';
+
 
 // api
 import api from '../api/api';
@@ -29,6 +31,8 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
   const [editedStatus, setEditedStatus] = useState('');
+
+  const { dispatch, REDUCER_ACTIONS } = useIssuesList()
 
   const { number, title, body, state, labels } = issue;
   const status = labels[0]?.name;
@@ -60,14 +64,19 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
 
         if (isCreate) {
           // create issue
-          await api.createIssue(token, { editedTitle, editedBody, labels });
+          const returnData = await api.createIssue(token, { editedTitle, editedBody, labels });
+
+          dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
+
 
           setShouldRenderIssues(true);
           setIsModalShow(false);
         } else {
           // update issue
-          await api.updateIssue(token, { number, editedTitle, editedBody });
+          const returnData = await api.updateIssue(token, { number, editedTitle, editedBody });
           await api.updateIssueLabels(token, number, labels);
+
+          dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
 
           setShouldRenderIssues(true);
           setIsModalShow(false);

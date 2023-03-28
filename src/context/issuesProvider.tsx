@@ -16,7 +16,9 @@ const initIssuesListState: IssuesListType = { issuesList: [] };
 const REDUCER_ACTION_TYPE = {
   GET: 'GET',
   SEARCH: 'SEARCH',
-  FILTER: 'FILTER'
+  FILTER: 'FILTER',
+  UPDATE_ALL: 'UPDATE_ALL',
+  UPDATE: 'UPDATE'
 }
 
 export type ReducerActionType = typeof REDUCER_ACTION_TYPE;
@@ -30,19 +32,28 @@ export type ReducerAction = {
 
 const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType => {
   switch (action.type) {
-    case REDUCER_ACTION_TYPE.GET: {
+    case REDUCER_ACTION_TYPE.UPDATE_ALL: {
       if (!action.listPayload) {
         throw new Error('action.payload missing in GET action')
       }
 
-      return { ...state, issuesList: action.listPayload }
+      return { ...state, issuesList: [...state.issuesList, ...action.listPayload] }
     }
 
-    case REDUCER_ACTION_TYPE.SEARCH: {
+    case REDUCER_ACTION_TYPE.UPDATE: {
       if (!action.payload) {
-        throw new Error('action.payload missing in CREATE action');
+        throw new Error('action.payload missing in GET action')
       }
 
+      const { number } = action.payload;
+
+      const filteredIssue = state.issuesList.filter((issue) => {
+        return issue.number !== number;
+      })
+
+      console.log(filteredIssue)
+
+      return { ...state, issuesList: [...filteredIssue, action.payload] }
     }
 
     default:
@@ -58,7 +69,9 @@ const useIssuesListContext = (initIssuesListState: IssuesListType) => {
     return REDUCER_ACTION_TYPE
   }, [])
 
-  const issuesList = state.issuesList;
+  const issuesList = state.issuesList.sort((a, b) => {
+    return b.number - a.number;
+  })
 
   return { dispatch, REDUCER_ACTIONS, issuesList }
 }
@@ -71,7 +84,7 @@ const initIssuesListContextState: UseIssuesListContextType = {
   issuesList: [],
 }
 
-export const IssuesListContext = createContext<UseIssuesListContextType>(initIssuesListContextState) 
+export const IssuesListContext = createContext<UseIssuesListContextType>(initIssuesListContextState)
 
 type ChildrenType = { children?: ReactElement | ReactElement[] };
 

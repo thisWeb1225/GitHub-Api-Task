@@ -45,3 +45,8 @@
 .issue__state.progress {
   background: #f89f9a;
 }
+
+.footer {
+  font-size: 0.8rem;
+  padding: 4px;
+}

@@ -47,6 +47,7 @@ const api: ApiType = {
       }
     })
     const data = await response.data;
+    console.log(data)
     return data;
   },
 
