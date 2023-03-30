@@ -18,8 +18,8 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
 
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
 
-  const { title, body, state, number, labels } = issue;
-  const status: string = labels[0]?.name.toLowerCase();
+  const { title, body, labels } = issue;
+  const status: string = labels ? labels[0]?.name.toLowerCase() : '';
 
   const openIssueModal = () => {
     setIsModalShow(true)

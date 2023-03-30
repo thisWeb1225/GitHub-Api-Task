@@ -1,5 +1,4 @@
 import { createContext, useState, ReactElement, useReducer, useMemo } from "react";
-import api from "../api/api";
 
 export type IssueType = {
   number: number,
@@ -50,8 +49,6 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
       const filteredIssue = state.issuesList.filter((issue) => {
         return issue.number !== number;
       })
-
-      console.log(filteredIssue)
 
       return { ...state, issuesList: [...filteredIssue, action.payload] }
     }

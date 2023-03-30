@@ -31,6 +31,7 @@ const IssuesList = () => {
           const getRepoIssues = async () => {
             const data = await api.getRepoIssues(token, page.current);
 
+
             if (data.length === 0) {
               observer.current?.unobserve(document.querySelector('.footer')!);
               return

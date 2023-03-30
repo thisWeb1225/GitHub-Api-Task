@@ -60,10 +60,11 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
         if (!token) return
 
         // handle labels
-        const labels = [editedStatus]
+        const labels = editedStatus ? [editedStatus] : ['Open'];
 
         if (isCreate) {
           // create issue
+
           const returnData = await api.createIssue(token, { editedTitle, editedBody, labels });
 
           dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
@@ -73,8 +74,7 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
           setIsModalShow(false);
         } else {
           // update issue
-          const returnData = await api.updateIssue(token, { number, editedTitle, editedBody });
-          await api.updateIssueLabels(token, number, labels);
+          const returnData = await api.updateIssue(token, { number, editedTitle, editedBody, labels });
 
           dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
 

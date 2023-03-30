@@ -22,63 +22,42 @@ app.use(bodyParse.json());
 app.get('/getAccessToken', async (req, res) => {
   const code = req.query.code;
 
-  try {
-    if (!code) throw new Error('need a code param');
+  const response = await axios({
+    method: 'POST',
+    url: `https://github.com/login/oauth/access_token`,
+    params: {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      code: code,
+      scope: SCOPE,
+    },
+    headers: {
+      Accept: 'application/json',
+    },
+  });
 
-    const response = await axios({
-      method: 'POST',
-      url: `https://github.com/login/oauth/access_token`,
-      params: {
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        code: code,
-        scope: SCOPE,
-      },
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-
-    if (response.status !== 200) {
-      throw new Error('status code is not 200');
-    }
-
-    const data = await response.data;
-    res.json(data);
-  } catch (err) {
-    res.send(err);
-  }
+  res.json(response.data);
 });
 
 app.get('/getRepoIssues', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
   const page = req.query.page;
 
-  try {
-    const response = await axios({
-      method: 'GET',
-      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues`,
-      headers: {
-        Authorization: authorization,
-        Accept: 'application/vnd.github+json',
-      },
-      params: {
-        per_page: PER_PAGE,
-        page: page,
-      },
-    });
+  const response = await axios({
+    method: 'GET',
+    url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues`,
+    headers: {
+      Authorization: authorization,
+      Accept: 'application/vnd.github+json',
+    },
+    params: {
+      per_page: PER_PAGE,
+      page: page,
+    },
+  });
 
-    if (response.status !== 200) {
-      throw new Error('status code is not 200');
-    }
-
-    const data = await response.data;
-    res.json(data);
-  } catch (err) {
-    res.send(err);
-  }
+  res.json(response.data);
 });
-
 
 app.get('/updateIssue', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
@@ -87,61 +66,25 @@ app.get('/updateIssue', async (req, res) => {
   const body = req.query.body;
   const state = req.query.state;
   const number = req.query.number;
-
-  try {
-    const response = await axios({
-      method: 'PATCH',
-      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues/${number}`,
-      headers: {
-        Accept: 'application/json',
-        Authorization: authorization,
-      },
-      data: {
-        title,
-        body,
-        state,
-        number,
-      },
-    });
-
-    if (response.status !== 200) {
-      throw new Error('status code is not 200');
-    }
-    const data = await response.data;
-    res.json(data);
-  } catch (err) {
-    res.json(err);
-  }
-});
-
-app.get('/updateIssueLabels', async (req, res) => {
-  const authorization = `Bearer ${req.query.token}`;
-
-  const number = req.query.number;
   const labels = req.query.labels;
-  // "labels":["Open"]
 
-  try {
-    const response = await axios({
-      method: 'PATCH',
-      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues/${number}`,
-      headers: {
-        Accept: 'application/json',
-        Authorization: authorization,
-      },
-      data: {
-        labels,
-      },
-    });
+  const response = await axios({
+    method: 'PATCH',
+    url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues/${number}`,
+    headers: {
+      Accept: 'application/json',
+      Authorization: authorization,
+    },
+    data: {
+      title,
+      body,
+      state,
+      number,
+      labels,
+    },
+  });
 
-    if (response.status !== 200) {
-      throw new Error('status code is not 200');
-    }
-    const data = await response.data;
-    res.json(data);
-  } catch (err) {
-    res.json(err);
-  }
+  res.json(response.data);
 });
 
 app.get('/createIssue', async (req, res) => {
@@ -152,29 +95,21 @@ app.get('/createIssue', async (req, res) => {
   const labels = req.query.labels;
   // "labels":["Open"]
 
-  try {
-    const response = await axios({
-      method: 'POST',
-      url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues`,
-      headers: {
-        Accept: 'application/json',
-        Authorization: authorization,
-      },
-      data: {
-        title,
-        body,
-        labels,
-      },
-    });
+  const response = await axios({
+    method: 'POST',
+    url: `${BASE_URL}/repos/${OWNER}/${REPO}/issues`,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: authorization,
+    },
+    data: {
+      title,
+      body,
+      labels,
+    },
+  });
 
-    if (response.status !== 200) {
-      throw new Error('status code is not 200');
-    }
-    const data = await response.data;
-    res.json(data);
-  } catch (err) {
-    res.json(err);
-  }
+  res.json(response.data);
 });
 
 app.listen(PORT, () => {
