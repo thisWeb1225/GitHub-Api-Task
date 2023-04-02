@@ -57,7 +57,11 @@ const Filter = ({ issuesList, filteredIssuesList, setFilteredIssuesList }: Props
         <option value="New">From New</option>
         <option value="Old">From Old</option>
       </select>
-      <input type="text" className="filter__input filter__input-search" placeholder="Search" onChange={(e) => searchIssueTitle(e.target.value)} />
+      <input type="text" className="filter__input filter__input-search" placeholder="Search Title" onChange={(e) => searchIssueTitle(e.target.value)} />
+      <div className="filter__searchBody">
+        <input type="text" className="filter__input filter__input-search" placeholder="Search Body" onChange={(e) => searchIssueTitle(e.target.value)} />
+        <button>Search</button>
+      </div>
     </section>
   )
 }

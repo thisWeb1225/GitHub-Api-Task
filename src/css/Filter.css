@@ -1,6 +1,7 @@
 .filter {
   width: 80%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -11,13 +12,24 @@
 }
 
 .filter__input-status {
-  flex: 1;
-}
-
-.filter__input-search {
-  flex: 10;
+  grid-column: 1 / 2;
 }
 
 .filter__input-time {
+  grid-column: 2 / 3;
+}
+
+.filter__input-search {
+  grid-column: 3 / 4;
+}
+
+.filter__searchBody {
+  grid-column: 1 / 4;
+  display: flex;
+  gap: 16px;
+}
+
+.filter__searchBody > .filter__input-search {
   flex: 1;
 }
+
