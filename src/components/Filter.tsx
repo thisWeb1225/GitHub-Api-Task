@@ -7,22 +7,21 @@ import './../css/Filter.css'
 
 type PropsType = {
   clearIssuesList: () => void,
-  setFilteredIssuesList: React.Dispatch<React.SetStateAction<any[]>>,
   direction: React.MutableRefObject<"desc" | "asc">,
+  labels: React.MutableRefObject<string>
 }
 
-const Filter = ({ clearIssuesList, setFilteredIssuesList, direction }: PropsType) => {
+const Filter = ({ clearIssuesList, direction, labels }: PropsType) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
 
-  const chooseStatus = (status: string) => {
-    if (status === 'All') {
-      setFilteredIssuesList(issuesList)
+  const chooseLabels = (lablesParam: string) => {
+    clearIssuesList()
+    if (lablesParam === 'All') {
+      labels.current = '';
     } else {
-      setFilteredIssuesList(() => {
-        return issuesList.filter(issue => issue.labels[0]?.name === status)
-      })
+      labels.current = lablesParam;
     }
   }
 
@@ -35,7 +34,9 @@ const Filter = ({ clearIssuesList, setFilteredIssuesList, direction }: PropsType
   const search = async () => {
     const token = localStorage.getItem('accessToken');
     if (token) {
+      clearIssuesList();
       const response = await api.search(token, searchKeyword);
+      console.log(response.items)
       dispatch({ type: REDUCER_ACTIONS.SEARCH, listPayload: response.items })
     }
   }
@@ -47,7 +48,7 @@ const Filter = ({ clearIssuesList, setFilteredIssuesList, direction }: PropsType
         name="status"
         title="choose status"
         className="filter__input filter__input-status"
-        onChange={(e) => chooseStatus(e.target.value)}
+        onChange={(e) => chooseLabels(e.target.value)}
       >
         <option value="All">All</option>
         <option value="Open">Open</option>

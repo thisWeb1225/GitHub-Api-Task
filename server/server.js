@@ -43,6 +43,7 @@ app.get('/getRepoIssues', async (req, res) => {
   const authorization = `Bearer ${req.query.token}`;
   const page = req.query.page;
   const direction = req.query.direction;
+  const labels = req.query.labels;
 
   const response = await axios({
     method: 'GET',
@@ -53,8 +54,9 @@ app.get('/getRepoIssues', async (req, res) => {
     },
     params: {
       per_page: PER_PAGE,
-      page: page,
-      direction: direction,
+      page,
+      direction,
+      labels,
     },
   });
 
@@ -78,11 +80,11 @@ app.get('/updateIssue', async (req, res) => {
       Authorization: authorization,
     },
     data: {
-      title: title,
-      body: body,
-      state: state,
-      number: number,
-      labels: labels,
+      title,
+      body,
+      state,
+      number,
+      labels,
     },
   });
 

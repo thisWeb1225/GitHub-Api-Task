@@ -11,7 +11,7 @@ type EditedIssueType = {
 
 type ApiType = {
   getAccessToken: (codeParam: string) => any,
-  getRepoIssues: (token: string, page: number, direction: 'desc' | 'asc') => any,
+  getRepoIssues: (token: string, page: number, direction: 'desc' | 'asc', lable: string) => any,
   updateIssue: (token: string, issue: EditedIssueType) => any,
   createIssue: (token: string, issue: EditedIssueType) => any,
   search: (token: string, keyword: string) => any,
@@ -36,7 +36,7 @@ const api: ApiType = {
     }
   },
 
-  getRepoIssues: async (token, page = 1, direction = 'desc') => {
+  getRepoIssues: async (token, page, direction, lable) => {
     const response = await axios({
       method: 'GET',
       url: 'http://localhost:4000/getRepoIssues',
@@ -44,6 +44,7 @@ const api: ApiType = {
         token,
         page,
         direction,
+        labels: lable
       }
     })
     const data = await response.data;

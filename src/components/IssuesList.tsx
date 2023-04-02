@@ -10,20 +10,17 @@ import api from "../api/api"
 import './../css/IssuesList.css'
 
 const IssuesList = () => {
-  const [filteredIssuesList, setFilteredIssuesList] = useState([] as any[]);
   const page = useRef(1);
   const direction = useRef<'desc' | 'asc'>('desc');
+  const labels = useRef<string>('');
+  const isSearch = useRef<boolean>(false);
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
 
+  // clear the issues list
   function clearIssuesList() {
     page.current = 1;
     dispatch({ type: REDUCER_ACTIONS.CLEAR })
   }
-
-  // update filtered issues state when issuesList update
-  useEffect(() => {
-    setFilteredIssuesList(issuesList)
-  }, [issuesList])
 
   // when scroll to bottom, fetch 10 more issues
   const observer = useRef<IntersectionObserver>();
@@ -31,10 +28,12 @@ const IssuesList = () => {
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
+          if (isSearch) return;
+
           const token = localStorage.getItem('accessToken');
           if (!token) return;
           const getRepoIssues = async () => {
-            const data = await api.getRepoIssues(token, page.current, direction.current);
+            const data = await api.getRepoIssues(token, page.current, direction.current, labels.current);
 
             if (data.length !== 0) {
               page.current++;
@@ -58,12 +57,12 @@ const IssuesList = () => {
     <>
       <Filter
         clearIssuesList={clearIssuesList}
-        setFilteredIssuesList={setFilteredIssuesList}
         direction={direction}
+        labels={labels}
       />
       <IssueCreate />
       <main className="issuesList">
-        {filteredIssuesList.map(issue => {
+        {issuesList.map(issue => {
           return (
             <Issue
               issue={issue}

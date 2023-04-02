@@ -109,7 +109,7 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, isCreate }: PropsType)
     if (isModalShow) {
       setEditedTitle(title);
       setEditedBody(body);
-      setEditedStatus(status);
+      setEditedStatus(() => status ? status : 'Open');
     } else {
       setEditedTitle('');
       setEditedBody('');

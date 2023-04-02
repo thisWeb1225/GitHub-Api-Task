@@ -72,7 +72,7 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
     }
 
     case REDUCER_ACTION_TYPE.CLEAR: {
-      return { ...state, issuesList: [] }
+      return { issuesList: [] }
     }
 
     default:
