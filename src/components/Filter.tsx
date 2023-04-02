@@ -73,16 +73,26 @@ const Filter = ({ clearIssuesList, direction, labels, isSearch }: PropsType) => 
         <option value="asc">From Old</option>
       </select>
 
-      <div className="filter__searchBody">
+      <div className="filter__search">
         <input
           ref={searchBar}
           type="text"
-          className="filter__input filter__input-search"
-          placeholder="Search Body"
+          className="filter__input filter__search-input"
+          placeholder="Search"
           onChange={(e) => setSearchKeyword(e.target.value)} />
-        <button onClick={search}>Search</button>
+        <button
+          onClick={search}
+          className="filter__search-search"
+        >
+          Search
+        </button>
         {isSearch.current
-          ? <button onClick={cancelSearch}>Cancel</button>
+          ? <button
+            onClick={cancelSearch}
+            className="filter__search-cancel"
+          >
+            Cancel
+          </button>
           : <></>}
       </div>
     </section>

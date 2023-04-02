@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: auto auto 1fr;
   flex-wrap: wrap;
-  gap: 16px;
+  row-gap: 16px;
 }
 
 .filter__input {
@@ -13,23 +13,28 @@
 
 .filter__input-status {
   grid-column: 1 / 2;
+  margin-right:16px;
 }
 
 .filter__input-time {
   grid-column: 2 / 3;
 }
 
-.filter__input-search {
-  grid-column: 3 / 4;
-}
-
-.filter__searchBody {
+.filter__search {
   grid-column: 1 / 4;
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
-.filter__searchBody > .filter__input-search {
-  flex: 1;
+.filter__search-input {
+  flex: 10 0;
 }
 
+.filter__search-search {
+  flex: 1 1;
+}
+
+.filter__search-cancel {
+  flex: 1 1;
+}
