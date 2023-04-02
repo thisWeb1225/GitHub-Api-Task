@@ -19,14 +19,13 @@ type PropsType = {
   issue: IssueType,
   isModalShow: boolean,
   setIsModalShow: React.Dispatch<React.SetStateAction<boolean>>,
-  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>,
   isCreate: boolean,
 }
 
 Modal.setAppElement('#root');
 
 // component
-const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues, isCreate }: PropsType) => {
+const IssueModal = ({ issue, isModalShow, setIsModalShow, isCreate }: PropsType) => {
   const [isEdit, setIsEdit] = useState(isCreate);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedBody, setEditedBody] = useState('');
@@ -64,13 +63,10 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
 
         if (isCreate) {
           // create issue
-
           const returnData = await api.createIssue(token, { editedTitle, editedBody, labels });
 
           dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
 
-
-          setShouldRenderIssues(true);
           setIsModalShow(false);
         } else {
           // update issue
@@ -78,7 +74,6 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
 
           dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
 
-          setShouldRenderIssues(true);
           setIsModalShow(false);
         }
       } else {
@@ -94,14 +89,15 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, setShouldRenderIssues,
       if (window.confirm('確定要刪除嗎？')) {
         // check
         const token = localStorage.getItem('accessToken');
-        if (!token) return
+        if (!token) return;
 
-        const reaturnContent = await api.updateIssue(token, { number, editedTitle, editedBody, editedState: 'closed' });
+        const returnData = await api.updateIssue(token, { number, editedTitle, editedBody, editedState: 'closed' });
 
-        setShouldRenderIssues(true);
-        setIsModalShow(false)
+        dispatch({ type: REDUCER_ACTIONS.DELETE, payload: returnData });
+
+        setIsModalShow(false);
       } else {
-        return
+        return;
       }
     }
 

@@ -11,9 +11,14 @@ import './../css/IssuesList.css'
 
 const IssuesList = () => {
   const [filteredIssuesList, setFilteredIssuesList] = useState([] as any[]);
-  const [shouldRenderIssues, setShouldRenderIssues] = useState(true);
   const page = useRef(1);
+  const direction = useRef<'desc' | 'asc'>('desc');
   const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
+
+  function clearIssuesList() {
+    page.current = 1;
+    dispatch({ type: REDUCER_ACTIONS.CLEAR })
+  }
 
   // update filtered issues state when issuesList update
   useEffect(() => {
@@ -29,21 +34,15 @@ const IssuesList = () => {
           const token = localStorage.getItem('accessToken');
           if (!token) return;
           const getRepoIssues = async () => {
-            const data = await api.getRepoIssues(token, page.current);
+            const data = await api.getRepoIssues(token, page.current, direction.current);
 
-
-            if (data.length === 0) {
-              observer.current?.unobserve(document.querySelector('.footer')!);
-              return
+            if (data.length !== 0) {
+              page.current++;
+              dispatch({ type: REDUCER_ACTIONS.UPDATE_ALL, listPayload: data });
             }
-
-            page.current++;
-            dispatch({ type: REDUCER_ACTIONS.UPDATE_ALL, listPayload: data });
           }
 
           getRepoIssues()
-          // setShouldRenderIssues(false)
-
         }
       }
     ), {};
@@ -58,23 +57,17 @@ const IssuesList = () => {
   return (
     <>
       <Filter
-        issuesList={issuesList}
-        filteredIssuesList={filteredIssuesList}
+        clearIssuesList={clearIssuesList}
         setFilteredIssuesList={setFilteredIssuesList}
+        direction={direction}
       />
-      <IssueCreate
-        setShouldRenderIssues={setShouldRenderIssues}
-        isCreate={true}
-      />
+      <IssueCreate />
       <main className="issuesList">
         {filteredIssuesList.map(issue => {
           return (
             <Issue
               issue={issue}
               key={issue.number}
-              dispatch={dispatch}
-              REDUCER_ACTIONS={REDUCER_ACTIONS}
-              setShouldRenderIssues={setShouldRenderIssues}
             />
           )
         })}

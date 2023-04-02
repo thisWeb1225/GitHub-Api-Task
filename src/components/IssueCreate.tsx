@@ -2,12 +2,7 @@ import { useState } from "react";
 import IssueModal from "./IssueModal";
 import { IssueType } from "../context/IssuesProvider";
 
-type PropsType = {
-  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>,
-  isCreate: boolean,
-}
-
-const IssueCreate = ({ setShouldRenderIssues }: PropsType) => {
+const IssueCreate = () => {
   const initIssueState = {
     title: 'New Issue',
     body: '',
@@ -33,7 +28,6 @@ const IssueCreate = ({ setShouldRenderIssues }: PropsType) => {
         issue={issue}
         isModalShow={isModalShow}
         setIsModalShow={setIsModalShow}
-        setShouldRenderIssues={setShouldRenderIssues}
         isCreate={true}
       />
     </>

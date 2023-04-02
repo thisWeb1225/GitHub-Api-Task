@@ -1,20 +1,20 @@
+import { useState } from "react"
 import { IssueType } from "../context/IssuesProvider"
+import useIssuesList from "../hook/useIssuesList"
+import api from "../api/api"
 import './../css/Filter.css'
 
 
 type PropsType = {
-  issuesList: IssueType[],
-  filteredIssuesList: any[],
-  setFilteredIssuesList: React.Dispatch<React.SetStateAction<any[]>>
+  clearIssuesList: () => void,
+  setFilteredIssuesList: React.Dispatch<React.SetStateAction<any[]>>,
+  direction: React.MutableRefObject<"desc" | "asc">,
 }
 
-const Filter = ({ issuesList, filteredIssuesList, setFilteredIssuesList }: PropsType) => {
+const Filter = ({ clearIssuesList, setFilteredIssuesList, direction }: PropsType) => {
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  const searchIssueTitle = (keyword: string) => {
-    setFilteredIssuesList(() => {
-      return issuesList.filter((issue => issue.title.toLowerCase().includes(keyword.toLocaleLowerCase())))
-    })
-  }
+  const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
 
   const chooseStatus = (status: string) => {
     if (status === 'All') {
@@ -26,11 +26,17 @@ const Filter = ({ issuesList, filteredIssuesList, setFilteredIssuesList }: Props
     }
   }
 
-  const sortWithTime = (time: string) => {
-    if (time === 'New') {
-      setFilteredIssuesList(issuesList)
-    } else {
-      setFilteredIssuesList([...issuesList].reverse())
+  const changeDirection = (sort: string) => {
+    clearIssuesList()
+    const directionParam = sort === 'desc' ? 'desc' : 'asc';
+    direction.current = directionParam;
+  }
+
+  const search = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const response = await api.search(token, searchKeyword);
+      dispatch({ type: REDUCER_ACTIONS.SEARCH, listPayload: response.items })
     }
   }
 
@@ -52,15 +58,18 @@ const Filter = ({ issuesList, filteredIssuesList, setFilteredIssuesList }: Props
         name="time"
         title="sort with time"
         className="filter__input filter__input-time"
-        onChange={(e) => sortWithTime(e.target.value)}
+        onChange={(e) => changeDirection(e.target.value)}
       >
-        <option value="New">From New</option>
-        <option value="Old">From Old</option>
+        <option value="desc">From New</option>
+        <option value="asc">From Old</option>
       </select>
-      <input type="text" className="filter__input filter__input-search" placeholder="Search Title" onChange={(e) => searchIssueTitle(e.target.value)} />
+
       <div className="filter__searchBody">
-        <input type="text" className="filter__input filter__input-search" placeholder="Search Body" onChange={(e) => searchIssueTitle(e.target.value)} />
-        <button>Search</button>
+        <input type="text"
+          className="filter__input filter__input-search"
+          placeholder="Search Body"
+          onChange={(e) => setSearchKeyword(e.target.value)} />
+        <button onClick={search}>Search</button>
       </div>
     </section>
   )

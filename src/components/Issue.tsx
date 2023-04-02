@@ -1,7 +1,5 @@
 import './../css/Issue.css'
 import { IssueType } from '../context/IssuesProvider';
-import { ReducerAction } from '../context/IssuesProvider';
-import { ReducerActionType } from '../context/IssuesProvider';
 
 import IssueModal from './IssueModal';
 import { useState } from 'react';
@@ -9,12 +7,9 @@ import { useState } from 'react';
 
 type PropsType = {
   issue: IssueType,
-  dispatch: React.Dispatch<ReducerAction>,
-  REDUCER_ACTIONS: ReducerActionType
-  setShouldRenderIssues: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: PropsType) => {
+const Issue = ({ issue }: PropsType) => {
 
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
 
@@ -38,7 +33,6 @@ const Issue = ({ issue, dispatch, REDUCER_ACTIONS, setShouldRenderIssues }: Prop
         issue={issue}
         isModalShow={isModalShow}
         setIsModalShow={setIsModalShow}
-        setShouldRenderIssues={setShouldRenderIssues}
         isCreate={false}
       />
     </>
