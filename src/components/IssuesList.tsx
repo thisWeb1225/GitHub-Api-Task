@@ -28,7 +28,7 @@ const IssuesList = () => {
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          if (isSearch) return;
+          if (isSearch.current) return;
 
           const token = localStorage.getItem('accessToken');
           if (!token) return;
@@ -59,6 +59,7 @@ const IssuesList = () => {
         clearIssuesList={clearIssuesList}
         direction={direction}
         labels={labels}
+        isSearch={isSearch}
       />
       <IssueCreate />
       <main className="issuesList">

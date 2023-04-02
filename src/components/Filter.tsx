@@ -1,5 +1,4 @@
-import { useState } from "react"
-import { IssueType } from "../context/IssuesProvider"
+import { useState, useRef } from "react"
 import useIssuesList from "../hook/useIssuesList"
 import api from "../api/api"
 import './../css/Filter.css'
@@ -8,13 +7,16 @@ import './../css/Filter.css'
 type PropsType = {
   clearIssuesList: () => void,
   direction: React.MutableRefObject<"desc" | "asc">,
-  labels: React.MutableRefObject<string>
+  labels: React.MutableRefObject<string>,
+  isSearch: React.MutableRefObject<boolean>,
 }
 
-const Filter = ({ clearIssuesList, direction, labels }: PropsType) => {
+const Filter = ({ clearIssuesList, direction, labels, isSearch }: PropsType) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const { dispatch, REDUCER_ACTIONS, issuesList } = useIssuesList();
+  const { dispatch, REDUCER_ACTIONS } = useIssuesList();
+
+  const searchBar = useRef<HTMLInputElement>(null)
 
   const chooseLabels = (lablesParam: string) => {
     clearIssuesList()
@@ -35,10 +37,16 @@ const Filter = ({ clearIssuesList, direction, labels }: PropsType) => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       clearIssuesList();
+      isSearch.current = true;
       const response = await api.search(token, searchKeyword);
-      console.log(response.items)
-      dispatch({ type: REDUCER_ACTIONS.SEARCH, listPayload: response.items })
+      dispatch({ type: REDUCER_ACTIONS.SEARCH, listPayload: response.items });
     }
+  }
+
+  const cancelSearch = () => {
+    clearIssuesList();
+    searchBar.current!.value = '';
+    isSearch.current = false;
   }
 
 
@@ -66,11 +74,16 @@ const Filter = ({ clearIssuesList, direction, labels }: PropsType) => {
       </select>
 
       <div className="filter__searchBody">
-        <input type="text"
+        <input
+          ref={searchBar}
+          type="text"
           className="filter__input filter__input-search"
           placeholder="Search Body"
           onChange={(e) => setSearchKeyword(e.target.value)} />
         <button onClick={search}>Search</button>
+        {isSearch.current
+          ? <button onClick={cancelSearch}>Cancel</button>
+          : <></>}
       </div>
     </section>
   )
