@@ -112,6 +112,25 @@ app.get('/createIssue', async (req, res) => {
   res.json(response.data);
 });
 
+app.get('/search', async (req, res) => {
+  const authorization = `Bearer ${req.query.token}`;
+  const keyword = req.query.keyword;
+
+  const response = await axios({
+    method: 'GET',
+    url: `${BASE_URL}/search/issues`,
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: authorization,
+    },
+    parmas: {
+      q: `repo:${OWNER}/${REPO} ${keyword} is:issue`,
+    },
+  });
+
+  res.json(response.data);
+});
+
 app.listen(PORT, () => {
   console.log(`CORS server running on http://localhost:${PORT}`);
 });
