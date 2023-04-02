@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import Issue from './component/Issue';
-import IssuesList from './component/IssuesList';
+import Issue from './components/Issue';
+import IssuesList from './components/IssuesList';
 import api from './api/api';
 import './App.css';
 
