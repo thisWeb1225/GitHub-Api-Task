@@ -15,6 +15,7 @@ const initIssuesListState: IssuesListType = { issuesList: [] };
 const REDUCER_ACTION_TYPE = {
   UPDATE_ALL: 'UPDATE_ALL',
   UPDATE: 'UPDATE',
+  CREATE: 'CREATE',
   DELETE: 'DELETE',
   SEARCH: 'SEARCH',
   CLEAR: 'CLEAR',
@@ -41,16 +42,28 @@ const reducer = (state: IssuesListType, action: ReducerAction): IssuesListType =
 
     case REDUCER_ACTION_TYPE.UPDATE: {
       if (!action.payload) {
-        throw new Error('action.payload missing in GET action')
+        throw new Error('action.payload missing in UPDATE action')
       }
 
       const { number } = action.payload;
 
-      const filteredIssue = state.issuesList.filter((issue) => {
-        return issue.number !== number;
+      const newIssuesList = state.issuesList.map((issue) => {
+        if (issue.number === number) {
+          issue = action.payload!;
+          return issue;
+        }
+        return issue;
       })
 
-      return { ...state, issuesList: [...filteredIssue, action.payload] }
+      return { ...state, issuesList: newIssuesList }
+    }
+
+    case REDUCER_ACTION_TYPE.CREATE: {
+      if (!action.payload) {
+        throw new Error('action.payload missing in CREATE action')
+      }
+
+      return { ...state, issuesList: [action.payload, ...state.issuesList] }
     }
 
     case REDUCER_ACTION_TYPE.DELETE: {

@@ -8,7 +8,7 @@ const CLIENT_SECRET = '99237c4c1bf43ee153b0cff72db5c25bd30a2475';
 
 const BASE_URL = 'https://api.github.com';
 const OWNER = 'thisWeb1225';
-const REPO = 'GitHub_Task_Demo';
+const REPO = 'GitHub-Api-Task';
 const SCOPE = 'repo:issue';
 const PER_PAGE = 10;
 

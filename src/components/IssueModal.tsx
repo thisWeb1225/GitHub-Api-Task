@@ -41,13 +41,13 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, isCreate }: PropsType)
   }
 
   const saveIssue = () => {
-    if (editedBody.trim().length < 30) {
-      alert('內容要超過 30 字');
-      return;
-    }
     if (!(editedTitle.trim())) {
       alert('必須填入標題')
       return
+    }
+    if (editedBody.trim().length < 30) {
+      alert('內容要超過 30 字');
+      return;
     }
 
     // api
@@ -65,7 +65,7 @@ const IssueModal = ({ issue, isModalShow, setIsModalShow, isCreate }: PropsType)
           // create issue
           const returnData = await api.createIssue(token, { editedTitle, editedBody, labels });
 
-          dispatch({ type: REDUCER_ACTIONS.UPDATE, payload: returnData });
+          dispatch({ type: REDUCER_ACTIONS.CREATE, payload: returnData });
 
           setIsModalShow(false);
         } else {

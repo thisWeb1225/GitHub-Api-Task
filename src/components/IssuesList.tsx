@@ -51,7 +51,7 @@ const IssuesList = () => {
     return () => {
       if (observer.current) observer.current.disconnect();
     }
-  }, [])
+  }, [isSearch.current])
 
   return (
     <>
@@ -61,7 +61,11 @@ const IssuesList = () => {
         labels={labels}
         isSearch={isSearch}
       />
-      <IssueCreate />
+      {
+        isSearch.current
+          ? <></>
+          : <IssueCreate />
+      }
       <main className="issuesList">
         {issuesList.map(issue => {
           return (
