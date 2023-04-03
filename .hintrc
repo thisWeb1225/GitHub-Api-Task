@@ -16,6 +16,8 @@
           "backdrop-filter"
         ]
       }
-    ]
+    ],
+    "typescript-config/consistent-casing": "off",
+    "typescript-config/strict": "off"
   }
 }
