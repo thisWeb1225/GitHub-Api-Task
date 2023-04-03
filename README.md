@@ -67,7 +67,6 @@ src
 └── App.tsx
 └── index.css
 └── index.tsx
-└── serviceWorker.ts
 
 ```
 
